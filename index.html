@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 背景 -->
+    <link rel="stylesheet" href="styles/background.css">
+    <!-- 主样式 -->
+    <link rel="stylesheet" href="styles/index.css">
+    <!-- 首页 -->
+    <link rel="stylesheet" href="styles/home.css">
+    <!-- 回信页 -->
+    <link rel="stylesheet" href="styles/letter-reply.css">
+    <title>PIECES OF MEMENTOS</title>
+</head>
+
+<body>
+    <!-- 背景光晕 -->
+    <div class="background">
+        <div class="glow" id="glow-1"></div>
+        <div class="glow" id="glow-2"></div>
+    </div>
+    <!-- 容器 -->
+    <!-- 首页 -->
+    <div class="container" id="home" style="display: none;">
+        <div id="home-title-box">
+            <h1 id="home-title">回忆碎片</h1>
+            <span id="home-title-en">PIECES OF MEMENTOS</span>
+        </div>
+    </div>
+    <!-- 回信页 -->
+    <div class="container" id="letter-reply">
+    </div>
+
+    <!-- GSAP 动画库 -->
+    <script src="scripts/gsap/gsap.min.js"></script>
+    <!-- 背景 -->
+    <script src="scripts/background.js"></script>
+    <!-- 导入回信数据 -->
+    <script src="data/letter-reply.js"></script>
+    <!-- 主脚本 -->
+    <script src="scripts/main.js"></script>
+</body>
+
+</html>
