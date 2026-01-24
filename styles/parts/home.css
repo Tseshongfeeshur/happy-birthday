@@ -1,0 +1,31 @@
+div#home-title-box {
+    width: calc(100% - 5dvh * 2);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin: 20dvh 5dvh 0 5dvh;
+    font-family: 'title', 'Noto Serif CJK SC', serif;
+    color: white;
+}
+
+h1#home-title {
+    margin: 0;
+    font-size: 4rem;
+}
+
+@media (min-width: 1000px) {
+    h1#home-title {
+        font-size: 8rem;
+    }
+}
+
+span#home-title-en {
+    color: #ffffff85;
+    font-size: 2.4rem;
+}
+
+@media (min-width: 1000px) {
+    span#home-title-en {
+        font-size: 3.2rem;
+    }
+}
