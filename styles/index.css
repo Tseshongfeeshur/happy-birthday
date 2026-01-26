@@ -1,3 +1,23 @@
+:root {
+    /* 左上颜色 */
+    --bg-color-1: rgb(12, 87, 226);
+    /* 右下颜色 */
+    --bg-color-2: rgb(104, 18, 234);
+    /* 三个级别的内容颜色 */
+    --content-color-primary: white;
+    --content-color-secondary: #ffffff76;
+    --content-color-border: #ffffffa9;
+    /* 动画时长 */
+    --in-duration: .4s;
+    --out-duration: .2s;
+    --click-duration: .1s;
+}
+
+html {
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
 div.container {
     height: 100dvh;
     width: 100dvw;
@@ -5,4 +25,58 @@ div.container {
     top: 0;
     left: 0;
     z-index: 1;
+}
+
+.hiden {
+    display: none;
+}
+
+/* 玻璃效果 */
+.glass {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background-color: rgba(199, 178, 255, 0.2);
+    backdrop-filter: blur(8px) saturate(180%);
+    box-shadow: 0px 5px 23px 4px rgba(0, 0, 0, .3);
+}
+
+.clickable-glass {
+    position: relative;
+    z-index: 1;
+    opacity: .8;
+    transition: scale var(--out-duration) ease-out,
+        opacity var(--out-duration) ease-out,
+        transform var(--out-duration) ease-out;
+}
+
+.clickable-glass::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    box-shadow: 0px 5px 23px 4px rgba(0, 0, 0, .3),
+        16px -16px 80px 5px var(--bg-color-1),
+        -16px 16px 79px 5px var(--bg-color-2);
+    opacity: 0;
+    transition: opacity var(--out-duration) ease-out;
+}
+
+.clickable-glass:hover {
+    scale: 1.1;
+    opacity: 1;
+    transform: translateY(-2);
+    transition: scale var(--in-duration) ease-out,
+        opacity var(--in-duration) ease-out,
+        transform var(--in-duration) ease-out;
+}
+
+.clickable-glass:hover::after {
+    opacity: 1;
+    transition: opacity var(--in-duration) ease-out;
+}
+
+.clickable-glass:active {
+    scale: 1;
+    transition: scale var(--click-duration) ease-out;
 }

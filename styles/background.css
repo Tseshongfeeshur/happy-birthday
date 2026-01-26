@@ -2,11 +2,7 @@
     /* 和屏幕边缘的边距 */
     --glow-margin: 20%;
     /* 每个光晕大小，vmax 是长宽中更大者 */
-    --glow-size: 86vmax;
-    /* 左上颜色 */
-    --glow-color-1: rgb(12, 87, 226);
-    /* 右下颜色 */
-    --glow-color-2: rgb(104, 18, 234);
+    --glow-size: 100vmax;
 }
 
 .background {
@@ -24,7 +20,7 @@
     /* 模糊半径 */
     filter: blur(16vmax);
     /* 不透明度 */
-    opacity: 0.6;
+    opacity: 0.4;
     /* 加速 */
     will-change: transform;
     pointer-events: none;
@@ -37,7 +33,7 @@
     height: var(--glow-size);
     margin-top: calc(var(--glow-size) / -2);
     margin-left: calc(var(--glow-size) / -2);
-    background: radial-gradient(circle, var(--glow-color-1) 0%, transparent 70%);
+    background: radial-gradient(circle, var(--bg-color-1) 0%, transparent 70%);
 }
 
 #glow-2 {
@@ -48,5 +44,5 @@
     height: var(--glow-size);
     margin-top: calc(var(--glow-size) / -2);
     margin-left: calc(var(--glow-size) / -2);
-    background: radial-gradient(circle, var(--glow-color-2) 0%, transparent 70%);
+    background: radial-gradient(circle, var(--bg-color-2) 0%, transparent 70%);
 }
