@@ -1,48 +1,120 @@
 :root {
     /* 和屏幕边缘的边距 */
-    --glow-margin: 20%;
+    --glow-margin: 24%;
     /* 每个光晕大小，vmax 是长宽中更大者 */
-    --glow-size: 100vmax;
+    --glow-size: 80vmax;
 }
 
-.background {
+#background {
+    /* 相对视口固定 */
     position: fixed;
     inset: 0;
+    /* 内部光晕容器居中 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* 溢出隐藏 */
     overflow: hidden;
     /* 作为背景 */
     z-index: -1;
     /* 背景基础色 */
-    background: #000000;
+    background: black;
 }
 
-.glow {
+/* 光晕容器 */
+#glows {
+    height: 100vh;
+    width: 100vw;
+    /* 匀速旋转动画 */
+    animation: spin 60s linear infinite;
+}
+
+/* 定义旋转动画 */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 两个内含光晕 */
+#glows::before,
+#glows::after {
+    content: "";
+    /* 相对容器定位 */
     position: absolute;
-    /* 模糊半径 */
-    filter: blur(16vmax);
-    /* 不透明度 */
-    opacity: 0.4;
-    /* 加速 */
-    will-change: transform;
+    width: var(--glow-size);
+    height: var(--glow-size);
+    border-radius: 50%;
+    filter: blur(12vmax);
+    opacity: 0.5;
+    /* GPU 加速 */
+    will-change: transform, opacity, filter;
+    /* 透传鼠标 */
     pointer-events: none;
 }
 
-#glow-1 {
+#glows::before {
     top: var(--glow-margin);
     left: var(--glow-margin);
-    width: var(--glow-size);
-    height: var(--glow-size);
-    margin-top: calc(var(--glow-size) / -2);
-    margin-left: calc(var(--glow-size) / -2);
     background: radial-gradient(circle, var(--bg-color-1) 0%, transparent 70%);
+    animation: glow-orbit-a 12s ease-in-out infinite;
 }
 
-#glow-2 {
-    /* 计算右下边距 */
+#glows::after {
     top: calc(100% - var(--glow-margin));
     left: calc(100% - var(--glow-margin));
-    width: var(--glow-size);
-    height: var(--glow-size);
-    margin-top: calc(var(--glow-size) / -2);
-    margin-left: calc(var(--glow-size) / -2);
     background: radial-gradient(circle, var(--bg-color-2) 0%, transparent 70%);
+    animation: glow-orbit-b 12s ease-in-out infinite reverse;
+}
+
+@keyframes glow-orbit-a {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) translate(60px, -60px) scale(0.9);
+        opacity: 0.4;
+    }
+
+    25% {
+        transform: translate(-50%, -50%) translate(-60px, -60px) scale(1.1);
+        opacity: 0.7;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) translate(-60px, 60px) scale(1.0);
+        opacity: 0.5;
+    }
+
+    75% {
+        transform: translate(-50%, -50%) translate(60px, 60px) scale(1.05);
+        opacity: 0.6;
+    }
+}
+
+@keyframes glow-orbit-b {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) translate(-60px, -60px) scale(1.05);
+        opacity: 0.6;
+    }
+
+    25% {
+        transform: translate(-50%, -50%) translate(60px, 60px) scale(1.1);
+        opacity: 0.7;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) translate(60px, -60px) scale(1.0);
+        opacity: 0.5;
+    }
+
+    75% {
+        transform: translate(-50%, -50%) translate(-60px, 60px) scale(0.9);
+        opacity: 0.4;
+    }
 }
