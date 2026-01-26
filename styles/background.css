@@ -52,25 +52,30 @@
     filter: blur(12vmax);
     opacity: 0.5;
     /* GPU 加速 */
-    will-change: transform, opacity, filter;
+    will-change: transform, opacity, filter, scale;
     /* 透传鼠标 */
     pointer-events: none;
 }
 
 #glows::before {
+    /* 左上 */
     top: var(--glow-margin);
     left: var(--glow-margin);
     background: radial-gradient(circle, var(--bg-color-1) 0%, transparent 70%);
+    /* 不规则动画 */
     animation: glow-orbit-a 12s ease-in-out infinite;
 }
 
 #glows::after {
+    /* 右下 */
     top: calc(100% - var(--glow-margin));
     left: calc(100% - var(--glow-margin));
     background: radial-gradient(circle, var(--bg-color-2) 0%, transparent 70%);
+    /* 不规则动画 */
     animation: glow-orbit-b 12s ease-in-out infinite reverse;
 }
 
+/* 定义不规则动画 */
 @keyframes glow-orbit-a {
 
     0%,

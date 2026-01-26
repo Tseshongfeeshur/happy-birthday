@@ -1,14 +1,17 @@
+/* 标题容器 */
 div#home-title-box {
     width: calc(100% - 5dvh * 2);
+    /* 内部元素居中 */
     display: flex;
     align-items: center;
     flex-direction: column;
     margin: 20dvh 5dvh 0 5dvh;
     font-family: 'title', 'Noto Serif CJK SC', serif;
-    color: var(--content-color-primary);
 }
 
+/* 标题 */
 h1#home-title {
+    color: var(--content-color-primary);
     margin: 0;
     font-size: 4.2rem;
 }
@@ -19,6 +22,7 @@ h1#home-title {
     }
 }
 
+/* 标题英文 */
 span#home-title-en {
     color: var(--content-color-secondary);
     font-size: 2.4rem;
@@ -30,25 +34,31 @@ span#home-title-en {
     }
 }
 
-/* 进入按钮 */
+/* 进入按钮容器 */
 div#home-button-box {
     width: 100%;
-    margin-top: 25vh;
+    /* margin-top: 25vh; */
+    height: calc(100dvh - 20dvh - 4.2rem - 2.4rem - 2.6rem - 2rem);
+    /* 内容居中 */
     display: flex;
     align-items: center;
+    justify-content: center;
     flex-direction: column;
 }
 
 @media (min-width: 1000px) {
     div#home-button-box {
-        margin-top: 20vh;
+        height: calc(100dvh - 20dvh - 8rem - 3.2rem - 3rem - 2rem);
     }
 }
 
+/* 进入按钮 */
 div#home-button {
     height: 3.8rem;
     width: 3.8rem;
-    border-radius: 100%;
+    /* border-radius: 100%; */
+    border-radius: 3rem;
+    /* 内部图标居中 */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -56,8 +66,10 @@ div#home-button {
 
 @media (min-width: 1000px) {
     div#home-button {
-        height: 5rem;
-        width: 5rem;
+        /* height: 5rem; */
+        /* width: 5rem; */
+        height: 15rem;
+        width: 25rem;
     }
 }
 
@@ -82,9 +94,11 @@ div#about-button {
     height: 2.6rem;
     width: 2.6rem;
     border-radius: 100%;
+    /* 相对于视口定位 */
     position: fixed;
     bottom: 2rem;
     right: 2rem;
+    /* 内部图标居中 */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -112,4 +126,3 @@ svg#about-button-icon {
 svg#about-button-icon path {
     fill: var(--content-color-primary);
 }
-

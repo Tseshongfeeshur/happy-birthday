@@ -1,3 +1,4 @@
+/* 全局变量 */
 :root {
     /* 左上颜色 */
     --bg-color-1: rgb(12, 87, 226);
@@ -13,57 +14,90 @@
     --click-duration: .1s;
 }
 
+/* 基础全局样式 */
 html {
+    /* 不允许用户选中文本 */
     user-select: none;
+    /* 禁用 Chrome Mobile 难看的蓝色聚焦指示 */
     -webkit-tap-highlight-color: transparent;
 }
 
+/* 所有容器全部占满视口 */
 div.container {
     height: 100dvh;
     width: 100dvw;
+    /* 相对视口定位 */
     position: fixed;
-    top: 0;
-    left: 0;
+    /* 占满 */
+    inset: 0;
+    /* 高于背景 */
     z-index: 1;
-}
-
-.hiden {
-    display: none;
 }
 
 /* 玻璃效果 */
 .glass {
+    /* 边缘 */
     border: 1px solid rgba(255, 255, 255, 0.12);
-    background: linear-gradient(135deg, rgba(120,80,220,0.25), rgba(60,40,140,0.15));
-    /* background-color: rgba(199, 178, 255, 0.2); */
+    /* 模拟打光背景 */
+    background: linear-gradient(135deg, rgba(120, 80, 220, 0.25), rgba(60, 40, 140, 0.15));
+    /* 高斯模拟毛玻璃 */
     backdrop-filter: blur(12px) saturate(180%);
     box-shadow: 0px 5px 23px 4px rgba(0, 0, 0, .3);
 }
 
+/* 可点击的额外设置 */
 .clickable-glass {
+    /* 用于伪元素绝对定位 */
     position: relative;
+    /* 高于背景 */
     z-index: 1;
+    /* 未点击未聚焦的透明度 */
     opacity: .8;
-    transition: scale var(--out-duration) ease-out,
+    transition:
+        /* 大小 */
+        scale var(--out-duration) ease-out,
+        /* 透明度 */
         opacity var(--out-duration) ease-out,
+        /* 位移 */
         transform var(--out-duration) ease-out;
+    /* GPU 加速 */
+    will-change: opacity, transform, scale;
 }
 
+/* 发光效果 */
 .clickable-glass::after {
     content: "";
+    /* 相对父元素定位 */
     position: absolute;
+    /* 让出边框 */
     inset: -1px;
+    /* 作为背景 */
     z-index: -1;
+    /* 继承圆角值 */
     border-radius: inherit;
+    /* 透传鼠标 */
     pointer-events: none;
-    box-shadow: 0px 5px 23px 4px rgba(0, 0, 0, .3),
-        12px -12px 50px 2px color-mix(in srgb, var(--bg-color-1) 50%, transparent 50%),
-        -12px 12px 50px 2px color-mix(in srgb, var(--bg-color-2) 50%, transparent 50%);
+    /* 渐变，模拟半透明 */
+    background: linear-gradient(to bottom right,
+            /* 和发光方向一样 */
+            color-mix(in srgb, var(--bg-color-2) 40%, transparent 60%),
+            color-mix(in srgb, var(--bg-color-1) 40%, transparent 60%));
+    box-shadow:
+        /* 阴影 */
+        0px 5px 23px 4px rgba(0, 0, 0, .3),
+        /* 发光 */
+        12px 12px 50px 2px color-mix(in srgb, var(--bg-color-1) 50%, transparent 50%),
+        -12px -12px 50px 2px color-mix(in srgb, var(--bg-color-2) 50%, transparent 50%);
     opacity: 0;
+    /* 透明度动画 */
     transition: opacity var(--out-duration) ease-out;
+    /* 旋转动画 */
     animation: spin 4s linear infinite reverse;
+    /* GPU 加速 */
+    will-change: opacity, transform, scale;
 }
 
+/* 定义旋转动画 */
 @keyframes spin {
     from {
         transform: rotate(0deg);
@@ -74,21 +108,46 @@ div.container {
     }
 }
 
+/* 悬停时 */
 .clickable-glass:hover {
+    /* 变大 */
     scale: 1.1;
+    /* 变不透明 */
     opacity: 1;
-    transform: translateY(-2);
-    transition: scale var(--in-duration) ease-out,
+    /* 上移 */
+    transform: translateY(-2px);
+    /* 重载动画时长 */
+    transition:
+        /* 大小 */
+        scale var(--in-duration) ease-out,
+        /* 透明度 */
         opacity var(--in-duration) ease-out,
+        /* 位移 */
         transform var(--in-duration) ease-out;
 }
 
+/* 悬停时的伪元素 */
 .clickable-glass:hover::after {
+    /* 显示 */
     opacity: 1;
+    /* 重载透明度动画时长 */
     transition: opacity var(--in-duration) ease-out;
 }
 
+/* 点击时 */
 .clickable-glass:active {
+    /* 缩小 */
     scale: .96;
-    transition: scale var(--click-duration) ease-out;
+    /* 更透明，模拟深度 */
+    opacity: .8;
+    /* 重载动画时长 */
+    transition:
+        /* 大小 */
+        scale var(--click-duration) ease-out,
+        /* 透明度 */
+        opacity var(--click-duration) ease-out;
+}
+
+.hiden {
+    display: none;
 }
