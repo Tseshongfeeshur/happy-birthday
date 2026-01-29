@@ -56,26 +56,26 @@ div.container {
     /* 空闲透明度 */
     opacity: .8;
     /* 空闲浮动动画 */
-    animation: float 2s ease-in-out infinite alternate;
+    animation: float 1.6s ease-in-out infinite alternate;
     transition:
         /* 大小 */
         scale var(--out-duration) ease-out,
         /* 透明度 */
         opacity var(--out-duration) ease-out,
         /* 位移 */
-        transform var(--out-duration) ease-out;
+        translate var(--out-duration) ease-out;
     /* GPU 加速 */
-    will-change: opacity, transform, scale;
+    will-change: opacity, translate, scale;
 }
 
 /* 定义浮动动画 */
 @keyframes float {
     0% {
-        transform: translateY(-3px);
+        translate: 0 -3px;
     }
 
     100% {
-        transform: translateY(3px);
+        translate: 0 3px;
     }
 }
 
@@ -103,7 +103,7 @@ div.container {
     /* 透明度动画 */
     transition: opacity var(--out-duration) ease-out;
     /* GPU 加速 */
-    will-change: opacity, transform, scale;
+    will-change: opacity, translate, scale;
 }
 
 /* 定义渐变旋转角 */
@@ -131,7 +131,7 @@ div.container {
     /* 变不透明 */
     opacity: 1;
     /* 上移 */
-    transform: translateY(-2px);
+    translate: 0 -2px;
     /* 暂停浮动 */
     animation-play-state: paused;
     /* 重载动画时长 */
@@ -141,7 +141,7 @@ div.container {
         /* 透明度 */
         opacity var(--in-duration) ease-out,
         /* 位移 */
-        transform var(--in-duration) ease-out;
+        translate var(--in-duration) ease-out;
 }
 
 /* 悬停时的伪元素 */

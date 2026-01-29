@@ -32,11 +32,11 @@
 /* 定义旋转动画 */
 @keyframes spin {
     from {
-        transform: rotate(0deg);
+        rotate: 0deg;
     }
 
     to {
-        transform: rotate(360deg);
+        rotate: 360deg;
     }
 }
 
@@ -52,7 +52,7 @@
     filter: blur(12vmax);
     opacity: 0.5;
     /* GPU 加速 */
-    will-change: transform, opacity, filter, scale;
+    will-change: rotate, opacity, filter, scale;
     /* 透传鼠标 */
     pointer-events: none;
 }
@@ -80,22 +80,26 @@
 
     0%,
     100% {
-        transform: translate(-50%, -50%) translate(60px, -60px) scale(0.9);
+        translate: calc(-50% + 60px) calc(-50% - 60px);
+        scale: 0.9;
         opacity: 0.4;
     }
 
     25% {
-        transform: translate(-50%, -50%) translate(-60px, -60px) scale(1.1);
+        translate: calc(-50% - 60px) calc(-50% - 60px);
+        scale: 1.1;
         opacity: 0.7;
     }
 
     50% {
-        transform: translate(-50%, -50%) translate(-60px, 60px) scale(1.0);
+        translate: calc(-50% - 60px) calc(-50% + 60px);
+        scale: 1.0;
         opacity: 0.5;
     }
 
     75% {
-        transform: translate(-50%, -50%) translate(60px, 60px) scale(1.05);
+        translate: calc(-50% + 60px) calc(-50% + 60px);
+        scale: 1.05;
         opacity: 0.6;
     }
 }
@@ -104,22 +108,26 @@
 
     0%,
     100% {
-        transform: translate(-50%, -50%) translate(-60px, -60px) scale(1.05);
+        translate: calc(-50% - 60px) calc(-50% - 60px);
+        scale: 1.05;
         opacity: 0.6;
     }
 
     25% {
-        transform: translate(-50%, -50%) translate(60px, 60px) scale(1.1);
+        translate: calc(-50% + 60px) calc(-50% + 60px);
+        scale: 1.1;
         opacity: 0.7;
     }
 
     50% {
-        transform: translate(-50%, -50%) translate(60px, -60px) scale(1.0);
+        translate: calc(-50% + 60px) calc(-50% - 60px);
+        scale: 1.0;
         opacity: 0.5;
     }
 
     75% {
-        transform: translate(-50%, -50%) translate(-60px, 60px) scale(0.9);
+        translate: calc(-50% - 60px) calc(-50% + 60px);
+        scale: 0.9;
         opacity: 0.4;
     }
 }
