@@ -37,22 +37,26 @@ div.container {
 /* 玻璃效果 */
 .glass {
     /* 边缘 */
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, .12);
     /* 模拟打光背景 */
-    background: linear-gradient(135deg, rgba(120, 80, 220, 0.25), rgba(60, 40, 140, 0.15));
+    background: linear-gradient(135deg, rgba(120, 80, 220, .25), rgba(60, 40, 140, .15));
     /* 高斯模拟毛玻璃 */
-    backdrop-filter: blur(12px) saturate(180%);
-    box-shadow: 0px 5px 23px 4px rgba(0, 0, 0, .3);
+    backdrop-filter: blur(8px) saturate(180%);
+    box-shadow: 0px 5px 26px 6px rgba(0, 0, 0, .3);
 }
 
 /* 可点击的额外设置 */
 .clickable-glass {
+    /* 显示后面的背景 */
+    background: linear-gradient(135deg, rgba(120, 80, 220, .1), rgba(60, 40, 140, .05));
     /* 用于伪元素绝对定位 */
     position: relative;
     /* 高于背景 */
     z-index: 1;
-    /* 未点击未聚焦的透明度 */
+    /* 空闲透明度 */
     opacity: .8;
+    /* 空闲浮动动画 */
+    animation: float 2s ease-in-out infinite alternate;
     transition:
         /* 大小 */
         scale var(--out-duration) ease-out,
@@ -64,58 +68,72 @@ div.container {
     will-change: opacity, transform, scale;
 }
 
-/* 发光效果 */
+/* 定义浮动动画 */
+@keyframes float {
+    0% {
+        transform: translateY(-3px);
+    }
+
+    100% {
+        transform: translateY(3px);
+    }
+}
+
+/* 背景层 */
 .clickable-glass::after {
     content: "";
     /* 相对父元素定位 */
     position: absolute;
-    /* 让出边框 */
-    inset: -1px;
+    /* 扩展 */
+    inset: -2px;
     /* 作为背景 */
     z-index: -1;
     /* 继承圆角值 */
     border-radius: inherit;
     /* 透传鼠标 */
     pointer-events: none;
-    /* 渐变，模拟半透明 */
-    background: linear-gradient(to bottom right,
-            /* 和发光方向一样 */
-            color-mix(in srgb, var(--bg-color-2) 40%, transparent 60%),
-            color-mix(in srgb, var(--bg-color-1) 40%, transparent 60%));
-    box-shadow:
-        /* 阴影 */
-        0px 5px 23px 4px rgba(0, 0, 0, .3),
-        /* 发光 */
-        12px 12px 50px 2px color-mix(in srgb, var(--bg-color-1) 50%, transparent 50%),
-        -12px -12px 50px 2px color-mix(in srgb, var(--bg-color-2) 50%, transparent 50%);
-    opacity: 0;
+    /* 模拟光晕 */
+    filter: blur(16px);
+    /* 线性渐变 */
+    background: linear-gradient(var(--angle), var(--bg-color-1), var(--bg-color-2));
+    /* 渐变旋转动画 */
+    animation: rotate-gradient 4s linear infinite;
+    /* 空闲透明度 */
+    opacity: .4;
     /* 透明度动画 */
     transition: opacity var(--out-duration) ease-out;
-    /* 旋转动画 */
-    animation: spin 4s linear infinite reverse;
     /* GPU 加速 */
     will-change: opacity, transform, scale;
 }
 
-/* 定义旋转动画 */
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
+/* 定义渐变旋转角 */
+@property --angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+/* 定义渐变旋转动画 */
+@keyframes rotate-gradient {
+    0% {
+        --angle: 0deg;
     }
 
-    to {
-        transform: rotate(360deg);
+    100% {
+        --angle: 360deg;
     }
 }
 
 /* 悬停时 */
 .clickable-glass:hover {
     /* 变大 */
-    scale: 1.1;
+    scale: 1.06;
     /* 变不透明 */
     opacity: 1;
     /* 上移 */
     transform: translateY(-2px);
+    /* 暂停浮动 */
+    animation-play-state: paused;
     /* 重载动画时长 */
     transition:
         /* 大小 */
@@ -129,7 +147,7 @@ div.container {
 /* 悬停时的伪元素 */
 .clickable-glass:hover::after {
     /* 显示 */
-    opacity: 1;
+    opacity: .6;
     /* 重载透明度动画时长 */
     transition: opacity var(--in-duration) ease-out;
 }
@@ -150,4 +168,10 @@ div.container {
 
 .hiden {
     display: none;
+}
+
+/* 记录 */
+.container:hover .item:not(:hover) {
+  opacity: 0.4;
+  filter: blur(2px); /* 甚至可以加点模糊，突出视觉焦点 */
 }
