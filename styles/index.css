@@ -9,9 +9,9 @@
     --content-color-secondary: #ffffff76;
     --content-color-border: #ffffffa9;
     /* 动画时长 */
-    --in-duration: .4s;
-    --out-duration: .2s;
-    --click-duration: .1s;
+    --in-duration: .3s;
+    --out-duration: .1s;
+    --click-duration: .05s;
 }
 
 /* 基础全局样式 */
@@ -41,7 +41,7 @@ div.container {
     /* 模拟打光背景 */
     background: linear-gradient(135deg, rgba(120, 80, 220, .25), rgba(60, 40, 140, .15));
     /* 高斯模拟毛玻璃 */
-    backdrop-filter: blur(8px) saturate(180%);
+    backdrop-filter: blur(12px) saturate(180%);
     box-shadow: 0px 5px 26px 6px rgba(0, 0, 0, .3);
 }
 
@@ -166,12 +166,13 @@ div.container {
         opacity var(--click-duration) ease-out;
 }
 
-.hiden {
+/* 不显示的页面 */
+.hidden {
     display: none;
 }
 
 /* 记录 */
-.container:hover .item:not(:hover) {
-  opacity: 0.4;
-  filter: blur(2px); /* 甚至可以加点模糊，突出视觉焦点 */
+.glscontainer:hover .item:not(:hover) {
+    opacity: 0.4;
+    filter: blur(2px);
 }

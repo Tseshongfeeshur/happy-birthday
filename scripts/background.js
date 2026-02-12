@@ -2,8 +2,8 @@
 function startColorPulse() {
     // 获取根和元素
     const root = document.documentElement;
-    const color1 = root.getPropertyValue('--bg-color-1').trim();
-    const color2 = root.getPropertyValue('--bg-color-2').trim();
+    const color1 =getComputedStyle(root).getPropertyValue('--bg-color-1').trim();
+    const color2 =getComputedStyle(root).getPropertyValue('--bg-color-2').trim();
 
     // 代理变量
     const colorProxy = { color1, color2 };
