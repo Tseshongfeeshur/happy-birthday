@@ -24,9 +24,9 @@
     color: var(--content-color-primary);
     font-family: text, 'Noto Serif CJK SC', serif;
     font-size: 2.6rem;
-    text-shadow:
+    /* text-shadow:
         0 0 20px color-mix(in srgb, var(--bg-color-1), white 30%),
-        0 0 40px color-mix(in srgb, var(--bg-color-2), white 30%);
+        0 0 40px color-mix(in srgb, var(--bg-color-2), white 30%); */
 }
 
 @media (min-width: 1000px) {
