@@ -17,10 +17,10 @@ class Alohomora {
             }, null, 0)
             .call(() => {
                 const width = window.innerWidth;
-                for (let i = 0; i < 20; i++) {
+                for (let i = 0; i < 10; i++) {
                     setTimeout(() => {
                         window.firework.launch(Math.random() * width * 0.8 + width * 0.1, Math.random() * window.innerHeight * 0.2 + 20);
-                    }, i * 100);
+                    }, i * 140);
                 }
                 window.animateTextIn("Happy Birthday!", document.getElementById("alohomora-words"), 2);
             }, null, 3.6)
