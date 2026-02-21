@@ -18,9 +18,8 @@ class Home {
                 y: 0,
                 duration: 1.2,
                 ease: "elastic.out(1,0.7)",
-                delay: 0.3,
                 overwrite: "auto",
-            })
+            }, ">+=0.3")
             .fromTo("#about-button", {
                 opacity: 1,
                 y: "5rem",
@@ -28,7 +27,12 @@ class Home {
                 y: 0,
                 duration: 1.2,
                 ease: "elastic.out(1,0.7)",
-                delay: 0.1,
+                overwrite: "auto",
+            }, "<+=0.1")
+            .to("#nav-button-home", {
+                y: "-5rem",
+                duration: 1.2,
+                ease: "elastic.out(1,0.7)",
                 overwrite: "auto",
             }, "<")
             .fromTo("#home-button", {
@@ -38,14 +42,13 @@ class Home {
                 scale: 1,
                 duration: 1.2,
                 ease: "elastic.out(1,0.7)",
-                delay: 0.2,
                 overwrite: "auto",
                 onComplete: () => {
                     this.inProcess = false
                     this.isOpen = true;
                     console.log("Page <Home> entered");
                 },
-            }, "<");
+            }, "<+=0.2");
         // 返回一个可供 await 的过程
         return tl;
     };
@@ -77,6 +80,12 @@ class Home {
                 opacity: 0,
                 duration: 0.4,
                 ease: "power2.out",
+            }, "<")
+            .to("#nav-button-home", {
+                y: 0,
+                duration: 0.4,
+                ease: "elastic.out(1,0.7)",
+                overwrite: "auto",
             }, "<");
 
         tl.set("#home", {
@@ -87,7 +96,7 @@ class Home {
                 this.isOpen = false;
                 console.log("Page <Home> leaved");
             },
-        }, "+=0");
+        }, ">");
         // 返回一个可供 await 的过程
         return tl;
     }

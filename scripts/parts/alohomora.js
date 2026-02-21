@@ -86,6 +86,10 @@ class Alohomora {
     };
     // 绑定监听器
     constructor() {
+        const alohomoraButton = document.getElementById("alohomora-button");
+        alohomoraButton.addEventListener("click", () => {
+            window.goToPage("my-letter");
+        });
     }
 }
 

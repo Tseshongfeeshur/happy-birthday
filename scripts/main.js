@@ -44,7 +44,7 @@ bindButtons();
 
 // 全页面初始化
 function initial() {
-    window.goToPage("alohomora");
+    window.goToPage("my-letter");
 }
 
 // 等待所有资源加载完成

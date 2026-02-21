@@ -9,6 +9,7 @@
 #alohomora-svg-box svg {
     height: 100%;
     width: 100%;
+    /* 与文本等宽 */
     max-width: 285px;
 }
 
