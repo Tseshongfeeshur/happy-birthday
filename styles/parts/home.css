@@ -1,5 +1,5 @@
 /* 标题容器 */
-div#home-title-box {
+#home-title-box {
     width: calc(100% - 5dvh * 2);
     /* 内部元素居中 */
     display: flex;
@@ -7,36 +7,35 @@ div#home-title-box {
     flex-direction: column;
     margin: 20dvh 5dvh 0 5dvh;
     font-family: 'title', 'Noto Serif CJK SC', serif;
-    opacity: 0;
 }
 
 /* 标题 */
-h1#home-title {
+#home-title {
     color: var(--content-color-primary);
     margin: 0;
     font-size: 4.2rem;
 }
 
 @media (min-width: 1000px) {
-    h1#home-title {
+    #home-title {
         font-size: 8rem;
     }
 }
 
 /* 标题英文 */
-span#home-title-en {
+#home-title-en {
     color: var(--content-color-secondary);
     font-size: 2.4rem;
 }
 
 @media (min-width: 1000px) {
-    span#home-title-en {
+    #home-title-en {
         font-size: 3.2rem;
     }
 }
 
 /* 进入按钮容器 */
-div#home-button-box {
+#home-button-box {
     width: 100%;
     height: calc(100dvh - 20dvh - 4.2rem - 2.4rem - 2.6rem - 2rem);
     /* 内容居中 */
@@ -44,17 +43,16 @@ div#home-button-box {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    opacity: 0;
 }
 
 @media (min-width: 1000px) {
-    div#home-button-box {
+    #home-button-box {
         height: calc(100dvh - 20dvh - 8rem - 3.2rem - 3rem - 2rem);
     }
 }
 
 /* 进入按钮 */
-div#home-button {
+#home-button {
     height: 3.8rem;
     width: 3.8rem;
     border-radius: 100%;
@@ -65,31 +63,31 @@ div#home-button {
 }
 
 @media (min-width: 1000px) {
-    div#home-button {
+    #home-button {
         height: 5rem;
         width: 5rem;
     }
 }
 
 /* 进入按钮内图标 */
-svg#home-button-icon {
+#home-button-icon {
     max-height: 1.6rem;
     max-width: 1.6rem;
 }
 
 @media (min-width: 1000px) {
-    svg#home-button-icon {
+    #home-button-icon {
         max-height: 2.2rem;
         max-width: 2.2rem;
     }
 }
 
-svg#home-button-icon path {
+#home-button-icon path {
     fill: var(--content-color-primary);
 }
 
 /* 关于按钮 */
-div#about-button {
+#about-button {
     height: 2.6rem;
     width: 2.6rem;
     border-radius: 100%;
@@ -101,67 +99,133 @@ div#about-button {
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0;
 }
 
 @media (min-width: 1000px) {
-    div#about-button {
+    #about-button {
         height: 3rem;
         width: 3rem;
     }
 }
 
 /* 关于按钮内部图标 */
-svg#about-button-icon {
+#about-button-icon {
     max-height: 1rem;
     max-width: 1rem;
 }
 
 @media (min-width: 1000px) {
-    svg#about-button-icon {
+    #about-button-icon {
         max-height: 1.2rem;
         max-width: 1.2rem;
     }
 }
 
-svg#about-button-icon path {
+#about-button-icon path {
     fill: var(--content-color-primary);
 }
 
-/* 关于信息容器 */
-div#about-box {
+#about-bg {
     position: fixed;
     top: 0;
     left: 0;
-    height: calc(100dvh - (10dvh + 1rem) * 2);
+    height: 100dvh;
+    width: 100dvw;
+    z-index: 4000;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: none;
+    opacity: 0;
+}
+
+/* 关于信息容器 */
+#about-box {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 5000;
+    height: calc(100dvh - (8dvh + 1rem) * 2);
     width: calc(100dvw - (10dvw + 1rem) * 2);
     flex-direction: column;
     align-items: flex-start;
-    padding: calc(10dvh + 1rem) calc(10dvw + 1rem);
+    padding: calc(8dvh + 1rem) calc(10dvw + 1rem);
     color: white;
     font-family: 'text', 'Noto Serif CJK SC', serif;
     font-size: 1.2rem;
-    background-color: rgba(0, 0, 0, 0.4);
-    visibility: hidden;
+    display: none;
+    overflow: auto;
+    /* 隐藏滚动条 */
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    /* 透明度渐变遮罩 */
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        black 10%,
+        black 90%,
+        transparent 100%
+    );
+    mask-image: linear-gradient(
+        to bottom,
+        transparent 6%,
+        black 15%,
+        black 85%,
+        transparent 94%
+    );
 }
 
 @media (min-width: 1000px) {
-    div#about-box {
+    #about-box {
         height: calc(100dvh - (10dvh + 1rem) * 2);
         width: 640px;
         padding: calc(10dvh + 1rem) calc((100dvw - 640px) / 2);
     }
 }
 
-div#about-box div.glass {
+.about-item {
     margin-bottom: 1.2rem;
-    padding: 1rem;
+    --padding: 1rem;
     border-radius: 1.6rem;
-    width: calc(100% - 1rem * 2);
+    width: 100%;
+    line-height: 1.3em;
+    letter-spacing: 0px;
 }
 
-div#about-box div#about-title.glass {
+.about-title {
     margin-top: 1.2rem;
-    font-size: 1.8rem;
+    margin-bottom: 0.9rem;
+    font-size: 2.2rem;
+    line-height: 1em;
     width: auto;
+}
+
+.about-helper-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.about-avatar-box {
+    background-size: cover;
+    background-position: center;
+    height: 2rem;
+    width: 2rem;
+    border-radius: 100%;
+    display: inline-block;
+    margin-right: calc(0.5rem + 1px);
+}
+
+.about-avatar-box#linxi-avatar {
+    background-image: url("/images/about/linxi-avatar.jpg");
+}
+
+.about-avatar-box#pixabay-avatar {
+    background-image: url("/images/about/pixabay-avatar.png");
+}
+
+.about-nickname {
+    font-size: 1.2em;
+    text-decoration: none;
 }

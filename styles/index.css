@@ -8,10 +8,6 @@
     --content-color-primary: white;
     --content-color-secondary: #ffffff76;
     --content-color-border: #ffffffa9;
-    /* 动画时长 */
-    --in-duration: .3s;
-    --out-duration: .1s;
-    --click-duration: .05s;
 }
 
 /* 基础全局样式 */
@@ -22,8 +18,68 @@ html {
     -webkit-tap-highlight-color: transparent;
 }
 
+a {
+    text-decoration: none;
+    background: linear-gradient(to bottom right, color-mix(in srgb, var(--bg-color-2), white 40%), color-mix(in srgb, var(--bg-color-1), white 40%));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-stroke: 0.8px transparent;
+    /* letter-spacing: 1px; */
+    display: inline-block;
+}
+
+a:hover {
+    background: linear-gradient(to bottom right, color-mix(in srgb, var(--bg-color-2), white 70%), color-mix(in srgb, var(--bg-color-1), white 70%));
+    background-clip: text;
+}
+
+#nav {
+    position: fixed;
+    z-index: 3000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5rem;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 导航栏按钮 */
+.nav-button {
+    height: 2.4rem;
+    width: 2.4rem;
+    margin: 1.3rem;
+    border-radius: 100%;
+    /* 内部图标居中 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 关于按钮内部图标 */
+.nav-button-icon {
+    max-height: 1rem;
+    max-width: 1rem;
+}
+
+.nav-button-icon path {
+    fill: var(--content-color-primary);
+}
+
+#notify {
+    font-family: text, 'Noto Serif CJK SC', serif;
+    font-size: 1.1rem;
+    height: 2.4rem;
+    --padding: 0.6rem 0.8rem;
+    border-radius: 999px;
+    transform: translateY(-5rem);
+}
+
 /* 所有容器全部占满视口 */
-div.container {
+.container {
     height: 100dvh;
     width: 100dvw;
     /* 相对视口定位 */
@@ -32,144 +88,10 @@ div.container {
     inset: 0;
     /* 高于背景 */
     z-index: 1;
-}
-
-/* 玻璃效果 */
-.glass {
-    /* 边缘 */
-    border: 1px solid rgba(255, 255, 255, .12);
-    /* 模拟打光背景 */
-    background: linear-gradient(135deg, rgba(120, 80, 220, .25), rgba(60, 40, 140, .15));
-    /* 高斯模拟毛玻璃 */
-    backdrop-filter: blur(12px) saturate(180%);
-    box-shadow: 0px 5px 26px 6px rgba(0, 0, 0, .3);
-}
-
-/* 可点击的额外设置 */
-.clickable-glass {
-    /* 显示后面的背景 */
-    background: linear-gradient(135deg, rgba(120, 80, 220, .1), rgba(60, 40, 140, .05));
-    /* 用于伪元素绝对定位 */
-    position: relative;
-    /* 高于背景 */
-    z-index: 1;
-    /* 空闲透明度 */
-    opacity: .8;
-    /* 空闲浮动动画 */
-    animation: float 1.6s ease-in-out infinite alternate;
-    transition:
-        /* 大小 */
-        scale var(--out-duration) ease-out,
-        /* 透明度 */
-        opacity var(--out-duration) ease-out,
-        /* 位移 */
-        translate var(--out-duration) ease-out;
-    /* GPU 加速 */
-    will-change: opacity, translate, scale;
-}
-
-/* 定义浮动动画 */
-@keyframes float {
-    0% {
-        translate: 0 -3px;
-    }
-
-    100% {
-        translate: 0 3px;
-    }
-}
-
-/* 背景层 */
-.clickable-glass::after {
-    content: "";
-    /* 相对父元素定位 */
-    position: absolute;
-    /* 扩展 */
-    inset: -2px;
-    /* 作为背景 */
-    z-index: -1;
-    /* 继承圆角值 */
-    border-radius: inherit;
-    /* 透传鼠标 */
-    pointer-events: none;
-    /* 模拟光晕 */
-    filter: blur(16px);
-    /* 线性渐变 */
-    background: linear-gradient(var(--angle), var(--bg-color-1), var(--bg-color-2));
-    /* 渐变旋转动画 */
-    animation: rotate-gradient 4s linear infinite;
-    /* 空闲透明度 */
-    opacity: .4;
-    /* 透明度动画 */
-    transition: opacity var(--out-duration) ease-out;
-    /* GPU 加速 */
-    will-change: opacity, translate, scale;
-}
-
-/* 定义渐变旋转角 */
-@property --angle {
-    syntax: '<angle>';
-    initial-value: 0deg;
-    inherits: false;
-}
-
-/* 定义渐变旋转动画 */
-@keyframes rotate-gradient {
-    0% {
-        --angle: 0deg;
-    }
-
-    100% {
-        --angle: 360deg;
-    }
-}
-
-/* 悬停时 */
-.clickable-glass:hover {
-    /* 变大 */
-    scale: 1.06;
-    /* 变不透明 */
-    opacity: 1;
-    /* 上移 */
-    translate: 0 -2px;
-    /* 暂停浮动 */
-    animation-play-state: paused;
-    /* 重载动画时长 */
-    transition:
-        /* 大小 */
-        scale var(--in-duration) ease-out,
-        /* 透明度 */
-        opacity var(--in-duration) ease-out,
-        /* 位移 */
-        translate var(--in-duration) ease-out;
-}
-
-/* 悬停时的伪元素 */
-.clickable-glass:hover::after {
-    /* 显示 */
-    opacity: .6;
-    /* 重载透明度动画时长 */
-    transition: opacity var(--in-duration) ease-out;
-}
-
-/* 点击时 */
-.clickable-glass:active {
-    /* 缩小 */
-    scale: .96;
-    /* 更透明，模拟深度 */
-    opacity: .8;
-    /* 重载动画时长 */
-    transition:
-        /* 大小 */
-        scale var(--click-duration) ease-out,
-        /* 透明度 */
-        opacity var(--click-duration) ease-out;
-}
-
-/* 不显示的页面 */
-.hidden {
+    /* 默认隐藏 */
     display: none;
 }
+
 
 /* 记录 */
 .glscontainer:hover .item:not(:hover) {
