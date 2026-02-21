@@ -22,7 +22,7 @@ window.notify = function (text) {
         const tl = gsap.timeline();
         tl
             .to("#notify", {
-                y: 0,
+                y: 3,
                 scale: 1,
                 duration: 0.8,
                 ease: "elastic.out(1,1)",

@@ -56,7 +56,7 @@ class Alohomora {
             }, null, 0)
             .to("#alohomora-words", {
                 opacity: 0,
-                duration: 0.4,
+                duration: 0.2,
                 ease: "power2.in",
                 onComplete: () => {
                     document.getElementById("alohomora-words").innerHTML = "";

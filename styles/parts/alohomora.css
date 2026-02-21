@@ -9,7 +9,7 @@
 #alohomora-svg-box svg {
     height: 100%;
     width: 100%;
-    max-width: calc(2.8em * 14);
+    max-width: 285px;
 }
 
 #alohomora-words-box {
@@ -21,12 +21,11 @@
 }
 
 #alohomora-words {
-    color: var(--content-color-primary);
+    font-weight: 900;
+    /* color: var(--content-color-primary); */
+    color: color-mix(in srgb, color-mix(in srgb, var(--bg-color-1) 50%, var(--bg-color-2) 50%), white 60%);
     font-family: text, 'Noto Serif CJK SC', serif;
     font-size: 2.6rem;
-    /* text-shadow:
-        0 0 20px color-mix(in srgb, var(--bg-color-1), white 30%),
-        0 0 40px color-mix(in srgb, var(--bg-color-2), white 30%); */
 }
 
 @media (min-width: 1000px) {
