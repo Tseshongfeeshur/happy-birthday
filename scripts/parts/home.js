@@ -13,7 +13,7 @@ class Home {
             })
             .fromTo("#home-title-box", {
                 opacity: 1,
-                y: -(window.innerHeight * 0.2 + parseFloat(getComputedStyle(document.documentElement).fontSize) * 11.2),
+                y: -(window.innerHeight * 0.2 + 300),
             }, {
                 y: 0,
                 duration: 1.2,
@@ -31,8 +31,8 @@ class Home {
             }, "<+=0.1")
             .to("#nav-button-home", {
                 y: "-5rem",
-                duration: 1.2,
-                ease: "elastic.out(1,0.7)",
+                duration: 0.6,
+                ease: "power2.out",
                 overwrite: "auto",
             }, "<")
             .fromTo("#home-button", {
@@ -83,7 +83,7 @@ class Home {
             }, "<")
             .to("#nav-button-home", {
                 y: 0,
-                duration: 0.4,
+                duration: 1,
                 ease: "elastic.out(1,0.7)",
                 overwrite: "auto",
             }, "<");

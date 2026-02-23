@@ -13,7 +13,7 @@ class Alohomora {
                 display: "block",
             })
             .call(() => {
-                window.loadSvg("/images/alohomora/1.svg", document.getElementById("alohomora-svg-box"));
+                window.loadSvg("/images/alohomora/1.svg", document.getElementById("alohomora-svg-box"), 1);
             }, null, 0)
             .call(() => {
                 const width = window.innerWidth;
@@ -22,7 +22,7 @@ class Alohomora {
                         window.firework.launch(Math.random() * width * 0.8 + width * 0.1, Math.random() * window.innerHeight * 0.2 + 20);
                     }, i * 140);
                 }
-                window.animateTextIn("Happy Birthday!", document.getElementById("alohomora-words"), 2);
+                window.animateTextIn("Happy Birthday!", document.getElementById("alohomora-words"), 1.2);
             }, null, 3.6)
             .fromTo("#alohomora-button", {
                 opacity: 1,
@@ -37,7 +37,7 @@ class Alohomora {
                     this.isOpen = true;
                     console.log("Page <Alohomora> entered");
                 },
-            }, ">+=2");
+            }, ">+=1.2");
 
         // 返回一个可供 await 的过程
         return tl;
@@ -52,11 +52,16 @@ class Alohomora {
         const tl = gsap.timeline();
         tl
             .call(() => {
-                window.removeSvg(document.getElementById("alohomora-svg-box"));
+                window.removeSvg(document.getElementById("alohomora-svg-box"), 0.6);
+
+
+                // 要保证这玩意儿放完
+
+
             }, null, 0)
             .to("#alohomora-words", {
                 opacity: 0,
-                duration: 0.2,
+                duration: 0.6,
                 ease: "power2.in",
                 onComplete: () => {
                     document.getElementById("alohomora-words").innerHTML = "";
@@ -65,7 +70,7 @@ class Alohomora {
             .to("#alohomora-button", {
                 scale: 1.6,
                 opacity: 0,
-                duration: 0.4,
+                duration: 0.6,
                 ease: "power2.out",
             }, "<")
             .set("#alohomora-words", {

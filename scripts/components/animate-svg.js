@@ -34,7 +34,7 @@ window.loadSvg = async function (url, container, duration = 1.4) {
     }
 }
 
-window.removeSvg = async function (container, duration = 1) {
+window.removeSvg = async function (container, duration = 0.6) {
     try {
         const paths = container.querySelectorAll("path, circle, rect, polyline");
         if (paths.length === 0) return;
@@ -43,7 +43,7 @@ window.removeSvg = async function (container, duration = 1) {
         return gsap.to(paths, {
             drawSVG: "0%",
             duration,
-            ease: "power2.out",
+            ease: "power2.in",
         });
 
     } catch (error) {
