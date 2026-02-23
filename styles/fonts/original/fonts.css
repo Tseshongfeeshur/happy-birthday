@@ -1,0 +1,14 @@
+@font-face {
+    font-family: 'title';
+    src: url('香萃刻宋.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'text';
+    src: url('方正宋刻本秀楷简体.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'option';
+    src: url('平方韶华体.ttf') format('truetype');
+}
