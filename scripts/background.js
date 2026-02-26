@@ -24,6 +24,7 @@ function startColorPulse() {
     });
 }
 
+// 设置烟花特效
 function setUpFireworks() {
     const canvas = document.getElementById('fireworksCanvas');
     const ctx = canvas.getContext('2d');
@@ -73,9 +74,18 @@ function setUpFireworks() {
         }
     }
 
+    // 限制 devicePixelRatio，上限 1.5
+    // 移动设备 DPR 可达 2.5~3，不加限制时实际渲染像素数是逻辑尺寸的 6~9 倍
+    // 钳制到 1.5 后渲染像素减少约 75%
+    const MAX_DPR = 1.5;
+    let dpr = 1;
+
     function resize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
+        canvas.width = window.innerWidth * dpr;
+        canvas.height = window.innerHeight * dpr;
+        // 缩放到逻辑坐标系，后续所有坐标无需改动
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
     window.addEventListener('resize', resize, { passive: true });
     resize();
@@ -127,6 +137,7 @@ function setUpFireworks() {
             active.push(getParticle(x, y));
         }
     }
+
     function drawParticle(p) {
         const cs = p.colorStr;
         const len = p.histLen;
@@ -145,7 +156,7 @@ function setUpFireworks() {
         const left = [], right = [];
         for (let i = 0; i < len; i++) {
             const x = pts[i * 2], y = pts[i * 2 + 1];
-            const w = p.radius * (i / (len - 1)); // 尾部=0，头部=radius
+            const w = p.radius * 0.8 * Math.pow(i / (len - 1), 2); // 幂次曲线：尾部极细，头部收窄至 0.6x
 
             // 用相邻点差值估算切线，取垂直方向为法线
             const px = i > 0 ? pts[(i - 1) * 2] : pts[(i + 1) * 2];
@@ -203,7 +214,8 @@ function setUpFireworks() {
 
     let rafId;
     function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // setTransform 后 clearRect 仍用逻辑坐标即可清除全画布
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
         ctx.shadowBlur = 0;
 
         checkFps(); // 每帧采样一次
