@@ -28,7 +28,6 @@ function setUpFireworks() {
     const canvas = document.getElementById('fireworksCanvas');
     const ctx = canvas.getContext('2d');
 
-    // 对象池，避免频繁 GC
     const pool = [];
     const active = [];
 
@@ -37,9 +36,42 @@ function setUpFireworks() {
         [224, 176, 255],
         [255, 248, 225]
     ];
-    const PARTICLE_COUNT = 30;
+    const PARTICLE_COUNT = 40;
     const TRAIL_LENGTH = 12;
     const FADE_STEP = 0.02;
+
+    // 颜色字符串预计算
+    // alpha 以 FADE_STEP(0.02) 为步长，共 51 档，避免每帧拼接字符串
+    const ALPHA_STEPS = Math.ceil(1 / FADE_STEP) + 1; // 51
+    const COLOR_CACHE = {}; // colorStr -> String[51]
+    for (const c of COLORS) {
+        const cs = `${c[0]},${c[1]},${c[2]}`;
+        COLOR_CACHE[cs] = Array.from({ length: ALPHA_STEPS }, (_, i) => {
+            const a = Math.min(1, i * FADE_STEP).toFixed(2);
+            return `rgba(${cs},${a})`;
+        });
+    }
+
+    function alphaStyle(colorStr, alpha) {
+        const idx = Math.max(0, Math.min(ALPHA_STEPS - 1, (alpha / FADE_STEP + 0.5) | 0));
+        return COLOR_CACHE[colorStr][idx];
+    }
+
+    // FPS 自适应质量
+    let frameCount = 0;
+    let lastFpsCheck = performance.now();
+    let qualityLevel = 1; // 1 = 高质量，0.5 = 中，0.25 = 低
+
+    function checkFps() {
+        frameCount++;
+        const now = performance.now();
+        if (now - lastFpsCheck >= 1000) {
+            const fps = frameCount * 1000 / (now - lastFpsCheck);
+            frameCount = 0;
+            lastFpsCheck = now;
+            qualityLevel = Math.max(0.2, Math.min(1, (fps - 20) / 40));
+        }
+    }
 
     function resize() {
         canvas.width = window.innerWidth;
@@ -48,11 +80,14 @@ function setUpFireworks() {
     window.addEventListener('resize', resize, { passive: true });
     resize();
 
-    // 粒子用普通对象 + 对象池，避免 class 实例化开销
+    // Float32Array 环形缓冲区替代 {x,y} 对象数组
     function getParticle(x, y) {
         const p = pool.length > 0 ? pool.pop() : {
-            history: [],
-            color: null,
+            histX: new Float32Array(TRAIL_LENGTH),
+            histY: new Float32Array(TRAIL_LENGTH),
+            histHead: 0,
+            histLen: 0,
+            colorStr: null,
             x: 0, y: 0,
             vx: 0, vy: 0,
             alpha: 0,
@@ -65,7 +100,6 @@ function setUpFireworks() {
         p.alpha = 1;
 
         const c = COLORS[(Math.random() * 3) | 0];
-        p.color = c;
         p.colorStr = `${c[0]},${c[1]},${c[2]}`;
 
         const angle = Math.random() * Math.PI * 2;
@@ -73,9 +107,11 @@ function setUpFireworks() {
         p.vx = Math.cos(angle) * force;
         p.vy = Math.sin(angle) * force;
 
-        // 复用 history 数组
-        p.history.length = 0;
-        p.history.push({ x, y });
+        // 初始化环形缓冲区
+        p.histHead = 0;
+        p.histLen = 1;
+        p.histX[0] = x;
+        p.histY[0] = y;
 
         return p;
     }
@@ -84,36 +120,68 @@ function setUpFireworks() {
         pool.push(p);
     }
 
+    // 粒子数按质量等级缩放
     function createFirework(x, y) {
-        for (let i = 0; i < PARTICLE_COUNT; i++) {
+        const count = Math.max(20, (PARTICLE_COUNT * qualityLevel) | 0);
+        for (let i = 0; i < count; i++) {
             active.push(getParticle(x, y));
         }
     }
-
-    // 预先构建拖尾绘制路径，减少 ctx 状态切换
     function drawParticle(p) {
-        const hist = p.history;
-        const len = hist.length;
         const cs = p.colorStr;
-        const alpha = p.alpha;
+        const len = p.histLen;
+        const head = p.histHead;
+        if (len < 2) return;
 
-        // 拖尾：一条渐变路径，分段绘制以实现透明度渐变
-        if (len > 1) {
-            for (let i = 1; i < len; i++) {
-                const ta = alpha * (i / len);
-                ctx.beginPath();
-                ctx.moveTo(hist[i - 1].x, hist[i - 1].y);
-                ctx.lineTo(hist[i].x, hist[i].y);
-                ctx.strokeStyle = `rgba(${cs},${ta})`;
-                ctx.lineWidth = p.radius * (i / len); // 头部最粗
-                ctx.stroke();
-            }
+        // 从环形缓冲区还原有序点
+        const pts = [];
+        for (let i = 0; i < len; i++) {
+            const idx = (head - len + 1 + i + TRAIL_LENGTH) % TRAIL_LENGTH;
+            pts.push(p.histX[idx], p.histY[idx]); // 扁平化存储，避免对象
+        }
+        // pts = [x0,y0, x1,y1, ..., x(len-1),y(len-1)]
+
+        // 计算每个点的法向量，向两侧偏移构成 ribbon 轮廓
+        const left = [], right = [];
+        for (let i = 0; i < len; i++) {
+            const x = pts[i * 2], y = pts[i * 2 + 1];
+            const w = p.radius * (i / (len - 1)); // 尾部=0，头部=radius
+
+            // 用相邻点差值估算切线，取垂直方向为法线
+            const px = i > 0 ? pts[(i - 1) * 2] : pts[(i + 1) * 2];
+            const py = i > 0 ? pts[(i - 1) * 2 + 1] : pts[(i + 1) * 2 + 1];
+            const qx = i < len - 1 ? pts[(i + 1) * 2] : pts[i * 2];
+            const qy = i < len - 1 ? pts[(i + 1) * 2 + 1] : pts[i * 2 + 1];
+
+            let nx = qy - py, ny = px - qx;
+            const nl = Math.sqrt(nx * nx + ny * ny) || 1;
+            nx = nx / nl * w;
+            ny = ny / nl * w;
+
+            left.push(x + nx, y + ny);
+            right.push(x - nx, y - ny);
         }
 
-        // 头部光点
+        // 渐变：从尾部（透明）→ 头部（不透明）
+        const tx = pts[0], ty = pts[1];
+        const hx = pts[(len - 1) * 2], hy = pts[(len - 1) * 2 + 1];
+        const grad = ctx.createLinearGradient(tx, ty, hx, hy);
+        grad.addColorStop(0, `rgba(${cs},0)`);
+        grad.addColorStop(1, alphaStyle(cs, p.alpha));
+
+        // 一次 fill 绘制整条拖尾
+        ctx.beginPath();
+        ctx.moveTo(left[0], left[1]);
+        for (let i = 1; i < len; i++) ctx.lineTo(left[i * 2], left[i * 2 + 1]);
+        for (let i = len - 1; i >= 0; i--) ctx.lineTo(right[i * 2], right[i * 2 + 1]);
+        ctx.closePath();
+        ctx.fillStyle = grad;
+        ctx.fill();
+
+        // 头部光点不变
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${cs},${alpha})`;
+        ctx.fillStyle = alphaStyle(cs, p.alpha);
         ctx.fill();
     }
 
@@ -123,16 +191,12 @@ function setUpFireworks() {
         p.x += p.vx;
         p.y += p.vy;
 
-        const hist = p.history;
-        // 复用历史点对象，减少对象创建
-        if (hist.length >= TRAIL_LENGTH) {
-            const old = hist.shift();
-            old.x = p.x;
-            old.y = p.y;
-            hist.push(old);
-        } else {
-            hist.push({ x: p.x, y: p.y });
-        }
+        // 写入环形缓冲区，零动态对象分配
+        const nextHead = (p.histHead + 1) % TRAIL_LENGTH;
+        p.histX[nextHead] = p.x;
+        p.histY[nextHead] = p.y;
+        p.histHead = nextHead;
+        if (p.histLen < TRAIL_LENGTH) p.histLen++;
 
         p.alpha -= FADE_STEP;
     }
@@ -140,33 +204,33 @@ function setUpFireworks() {
     let rafId;
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // 关闭 shadowBlur（原代码设置了 shadowColor 但未显式关闭，开销大）
         ctx.shadowBlur = 0;
 
+        checkFps(); // 每帧采样一次
+
+        // O(1) swap+pop 替代 splice
         for (let i = active.length - 1; i >= 0; i--) {
             const p = active[i];
             updateParticle(p);
             if (p.alpha > 0) {
                 drawParticle(p);
             } else {
-                active.splice(i, 1);
+                // swap 末尾元素到当前位置，再 pop，避免 O(n) 移位
+                active[i] = active[active.length - 1];
+                active.pop();
                 recycleParticle(p);
             }
         }
 
-        // 没有粒子时暂停 RAF，节省 CPU
         rafId = (active.length > 0 || rafId == null)
             ? requestAnimationFrame(animate)
             : null;
     }
 
-    // 首次启动
     rafId = requestAnimationFrame(animate);
 
     function onPointer(x, y) {
         createFirework(x, y);
-        // 若动画已暂停则重启
         if (!rafId) rafId = requestAnimationFrame(animate);
     }
 
