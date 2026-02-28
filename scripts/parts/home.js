@@ -11,38 +11,25 @@ class Home {
             .set("#home", {
                 display: "block",
             })
-            .fromTo("#home-title-box", {
-                opacity: 1,
-                y: -(window.innerHeight * 0.2 + 300),
-            }, {
+            .to("#home-title-box", {
                 y: 0,
                 duration: 1.2,
                 ease: "elastic.out(1,0.7)",
-                overwrite: "auto",
             }, ">+=0.3")
-            .fromTo("#about-button", {
-                opacity: 1,
-                y: "5rem",
-            }, {
+            .to("#about-button", {
                 y: 0,
                 duration: 1.2,
                 ease: "elastic.out(1,0.7)",
-                overwrite: "auto",
             }, "<+=0.1")
             .to("#nav-button-home", {
                 y: "-5rem",
-                duration: 0.6,
-                ease: "power2.out",
-                overwrite: "auto",
+                duration: 0.5,
+                ease: "power3.out",
             }, "<")
-            .fromTo("#home-button", {
-                opacity: 1,
-                scale: 0,
-            }, {
+            .to("#home-button", {
                 scale: 1,
                 duration: 1.2,
                 ease: "elastic.out(1,0.7)",
-                overwrite: "auto",
                 onComplete: () => {
                     this.inProcess = false
                     this.isOpen = true;
@@ -63,21 +50,18 @@ class Home {
         const tl = gsap.timeline();
         tl
             .to("#home-title-box", {
-                y: -(window.innerHeight * 0.2 + parseFloat(getComputedStyle(document.documentElement).fontSize) * 11.2),
-                opacity: 0,
+                y: -(window.innerHeight * 0.2 + 300),
                 duration: 0.4,
                 ease: "power2.out",
                 delay: 0.1,
             })
             .to("#home-button", {
-                scale: 1.6,
-                opacity: 0,
+                scale: 0,
                 duration: 0.4,
                 ease: "power2.out",
             }, "<")
             .to("#about-button", {
                 y: "5rem",
-                opacity: 0,
                 duration: 0.4,
                 ease: "power2.out",
             }, "<")
@@ -85,18 +69,16 @@ class Home {
                 y: 0,
                 duration: 1,
                 ease: "elastic.out(1,0.7)",
-                overwrite: "auto",
-            }, "<");
-
-        tl.set("#home", {
-            display: "none",
-            onComplete: () => {
-                // 出场完成后才设置 flag
-                this.inProcess = false;
-                this.isOpen = false;
-                console.log("Page <Home> leaved");
-            },
-        }, ">");
+            }, "<")
+            .set("#home", {
+                display: "none",
+                onComplete: () => {
+                    // 出场完成后才设置 flag
+                    this.inProcess = false;
+                    this.isOpen = false;
+                    console.log("Page <Home> leaved");
+                },
+            }, ">");
         // 返回一个可供 await 的过程
         return tl;
     }
@@ -108,7 +90,7 @@ class Home {
         const tl = gsap.timeline();
         tl
             .set(".about-item", {
-                y: vh,          // px 替代 "100dvh"
+                y: vh,
             }, "<")
             .set("#about-box", {
                 display: "flex",

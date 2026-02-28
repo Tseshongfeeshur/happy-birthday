@@ -7,6 +7,7 @@
     flex-direction: column;
     margin: 20dvh 5dvh 0 5dvh;
     font-family: 'title', 'Noto Serif CJK SC', serif;
+    transform: translateY(calc((20vw + 300px) * -1));
 }
 
 /* 标题 */
@@ -60,6 +61,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    scale: 0;
 }
 
 @media (min-width: 1000px) {
@@ -99,6 +101,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transform: translateY(5rem);
 }
 
 @media (min-width: 1000px) {
@@ -153,27 +156,25 @@
     font-size: 1.2rem;
     display: none;
     overflow: auto;
+
     /* 隐藏滚动条 */
     &::-webkit-scrollbar {
         display: none;
     }
+
     scrollbar-width: none;
     -ms-overflow-style: none;
     /* 透明度渐变遮罩 */
-    -webkit-mask-image: linear-gradient(
-        to bottom,
+    -webkit-mask-image: linear-gradient(to bottom,
         transparent 0%,
         black 10%,
         black 90%,
-        transparent 100%
-    );
-    mask-image: linear-gradient(
-        to bottom,
+        transparent 100%);
+    mask-image: linear-gradient(to bottom,
         transparent 6%,
         black 15%,
         black 85%,
-        transparent 94%
-    );
+        transparent 94%);
 }
 
 @media (min-width: 1000px) {
@@ -218,11 +219,11 @@
 }
 
 .about-avatar-box#linxi-avatar {
-    background-image: url("/images/about/linxi-avatar.jpg");
+    background-image: url("../../assets/images/about/linxi-avatar.jpg");
 }
 
 .about-avatar-box#pixabay-avatar {
-    background-image: url("/images/about/pixabay-avatar.png");
+    background-image: url("../../assets/images/about/pixabay-avatar.png");
 }
 
 .about-nickname {

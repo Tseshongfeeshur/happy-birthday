@@ -8,40 +8,45 @@ class Alohomora {
         // 开始入场前就设置 flag
         this.inProcess = true;
         const tl = gsap.timeline();
-        tl
-            .set("#alohomora", {
-                display: "block",
-            })
-            .call(() => {
-                window.loadSvg("/images/alohomora/1.svg", document.getElementById("alohomora-svg-box"), 1);
-            }, null, 0)
-            .call(() => {
+        tl.set("#alohomora", {
+            display: "flex",
+        });
+        await window.loadSvg(
+            "../../assets/images/alohomora/1.svg",
+            document.getElementById("alohomora-svg-box"),
+            tl
+        );
+        await window.animateTextIn(
+            "Happy Birthday!",
+            document.getElementById("alohomora-words"),
+            tl,
+            2,
+            ">-=2",
+            () => {
                 const width = window.innerWidth;
                 for (let i = 0; i < 10; i++) {
                     setTimeout(() => {
                         window.firework.launch(Math.random() * width * 0.8 + width * 0.1, Math.random() * window.innerHeight * 0.2 + 20);
                     }, i * 140);
                 }
-                window.animateTextIn("Happy Birthday!", document.getElementById("alohomora-words"), 1.2);
-            }, null, 3.6)
-            .fromTo("#alohomora-button", {
-                opacity: 1,
-                scale: 0,
-            }, {
+            }
+        );
+        tl
+            .to("#alohomora-button", {
                 scale: 1,
                 duration: 1.2,
                 ease: "elastic.out(1,0.7)",
-                overwrite: "auto",
                 onComplete: () => {
                     this.inProcess = false;
                     this.isOpen = true;
                     console.log("Page <Alohomora> entered");
                 },
-            }, ">+=1.2");
+            }, ">");
 
         // 返回一个可供 await 的过程
         return tl;
     }
+
     //出场动画
     async leaveAnime() {
         if (this.inProcess) {
@@ -50,15 +55,8 @@ class Alohomora {
         }
         console.log("Page <Alohomora> leaving..");
         const tl = gsap.timeline();
+        await window.removeSvg(document.getElementById("alohomora-svg-box"), tl);
         tl
-            .call(() => {
-                window.removeSvg(document.getElementById("alohomora-svg-box"), 0.6);
-
-
-                // 要保证这玩意儿放完
-
-
-            }, null, 0)
             .to("#alohomora-words", {
                 opacity: 0,
                 duration: 0.6,
@@ -68,8 +66,7 @@ class Alohomora {
                 }
             }, "<")
             .to("#alohomora-button", {
-                scale: 1.6,
-                opacity: 0,
+                scale: 0,
                 duration: 0.6,
                 ease: "power2.out",
             }, "<")
