@@ -1,6 +1,7 @@
 class MyLetter {
     isOpen = false;
     inProcess = false;
+
     // 入场动画
     async enterAnime() {
         console.log("Page <MyLetter> entering..");
@@ -9,12 +10,12 @@ class MyLetter {
         const tl = gsap.timeline();
         tl
             .set("#my-letter", {
-                display: "block",
-                onComplete: () => {
-                    this.inProcess = false
-                    this.isOpen = true;
-                    console.log("Page <MyLetter> entered");
-                },
+                display: "flex",
+                // onComplete: () => {
+                //     this.inProcess = false
+                //     this.isOpen = true;
+                //     console.log("Page <MyLetter> entered");
+                // },
             })
         // 返回一个可供 await 的过程
         return tl;

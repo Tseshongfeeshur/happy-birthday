@@ -9,12 +9,12 @@
     }
 }
 
-#graph-box {
+#alohomora-graph-box {
     margin: 6rem 0 0 0;
 }
 
 @media (min-width: 1000px) {
-    #graph-box {
+    #alohomora-graph-box {
         margin-top: 0;
         width: 40%;
         margin-left: 10dvw;

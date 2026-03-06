@@ -1,0 +1,99 @@
+#my-letter {
+    flex-direction: column;
+}
+
+@media (min-width: 1000px) {
+    #my-letter {
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
+#myl-svg-box {
+    margin: 6rem 1rem 0 1rem;
+    flex-grow: 1;
+    /* 拿走剩下的所有空间 */
+    flex-shrink: 1;
+    min-height: 0;
+    /* 关键：允许 Flex 子元素缩到比内容还小，防止溢出 */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* 让 SVG 在剩余空间里居中 */
+}
+
+@media (min-width: 1000px) {
+    #myl-svg-box {
+        margin: 1rem 0 1rem 10vw;
+        width: 40%;
+        height: auto;
+    }
+}
+
+#myl-svg-box svg {
+    max-width: 100%;
+    max-height: 100%;
+    /* 确保 SVG 既不会宽溢出，也不会高溢出 */
+    width: auto;
+    height: auto;
+}
+
+@media (min-width: 1000px) {
+    #myl-svg-box svg {
+        max-width: 50dvh;
+    }
+}
+
+#myl-content-box {
+    margin: 2rem;
+    width: auto;
+    /* 让 margin 生效，不要写 100% */
+    height: auto;
+    /* 关键：交给内容决定高度 */
+    flex-shrink: 0;
+    /* 关键：绝对不允许为了腾空间而挤压我 */
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+@media (min-width: 1000px) {
+    #myl-content-box {
+        width: 40%;
+        margin-right: 10dvw;
+    }
+}
+
+#myl-content-box glass-card {
+    line-height: 1.3em;
+}
+
+#myl-txt {
+    margin: 0 10% 1rem 0;
+    width: 90%;
+    border-radius: 1.4rem 1.4rem 1.4rem 3px;
+    --padding: 0.8rem;
+    font-size: 1.1rem;
+    letter-spacing: 0px;
+    font-family: 'text', 'Noto Serif CJK SC', serif;
+}
+
+#myl-options-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-left: 10%;
+    width: 90%;
+}
+
+.myl-option {
+    background-color: #ffffff40;
+    margin-bottom: 0.6rem;
+    border-radius: 1.4rem 1.4rem 3px 1.4rem;
+    --padding: 0.4rem 0.9rem;
+    font-size: 1.4rem;
+    font-family: 'option', 'Noto Serif CJK SC', serif;
+}
