@@ -48,12 +48,11 @@
 #myl-content-box {
     margin: 2rem;
     width: auto;
-    /* 让 margin 生效，不要写 100% */
+    /* 让 margin 生效 */
     height: auto;
-    /* 关键：交给内容决定高度 */
+    /* 交给内容决定高度 */
     flex-shrink: 0;
-    /* 关键：绝对不允许为了腾空间而挤压我 */
-
+    /* 绝对不允许为了腾空间而挤压该元素 */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -90,7 +89,7 @@
 }
 
 .myl-option {
-    background-color: #ffffff40;
+    --glass-bg: #ffffff40;
     margin-bottom: 0.6rem;
     border-radius: 1.4rem 1.4rem 3px 1.4rem;
     --padding: 0.4rem 0.9rem;
