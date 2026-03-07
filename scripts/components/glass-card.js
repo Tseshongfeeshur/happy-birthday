@@ -66,7 +66,7 @@ class GlassCard extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return ['clickable'];
+        return ['clickable', 'paused'];
     }
 
     connectedCallback() {
@@ -91,7 +91,7 @@ class GlassCard extends HTMLElement {
             ease: "sine.inOut",
             repeat: -1,
             yoyo: true,
-            paused: !this.clickable,
+            paused: !this.clickable || this.paused,
             overwrite: "auto",
         });
     }
@@ -125,7 +125,7 @@ class GlassCard extends HTMLElement {
                 ease: "power2.out",
                 overwrite: "auto",
                 onComplete: () => {
-                    if (this.clickable && this.floatTween && !this.floatTween.isActive()) {
+                    if (!this.paused && this.clickable && this.floatTween && !this.floatTween.isActive()) {
                         this.floatTween.resume();
                     }
                 }
@@ -176,12 +176,25 @@ class GlassCard extends HTMLElement {
                 gsap.to(this.container, { scale: 1, y: 0, opacity: 1, duration: 0.3 });
             }
         }
+
+        if (name === 'paused') {
+            const isPaused = newValue !== null;
+            if (this.floatTween) {
+                isPaused ? this.floatTween.pause() : this.floatTween.resume();
+            }
+        }
     }
 
     get clickable() { return this.hasAttribute('clickable'); }
     set clickable(val) {
         if (val) this.setAttribute('clickable', '');
-        else this.removeAttribute('removeAttribute', 'clickable');
+        else this.removeAttribute('clickable');
+    }
+
+    get paused() { return this.hasAttribute('paused'); }
+    set paused(val) {
+        if (val) this.setAttribute('paused', '');
+        else this.removeAttribute('paused');
     }
 
     disconnectedCallback() {

@@ -26,7 +26,7 @@ window.loadSvg = async function (url, container, tl, duration = 1, order = "<") 
         }, {
             drawSVG: "100%",
             duration,
-            stagger: 0.06,
+            stagger: duration / 16,
             ease: "power2.inOut",
             onStart: () => console.log("SVG entering.."),
             onComplete: () => console.log("SVG entered"),

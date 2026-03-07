@@ -91,10 +91,3 @@ a:hover {
     /* 默认隐藏 */
     display: none;
 }
-
-
-/* 记录 */
-.glscontainer:hover .item:not(:hover) {
-    opacity: 0.4;
-    filter: blur(2px);
-}

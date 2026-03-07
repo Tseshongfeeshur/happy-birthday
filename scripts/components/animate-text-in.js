@@ -10,11 +10,11 @@ gsap.registerPlugin(SplitText);
  * @param {String} order - 动画顺序
  * @param {Function} onStart - 启动钩子
  */
-window.animateTextIn = async function (text, container, tl, duration = 0.8, order = "<", onStart) {
+window.animateTextIn = async function (text, container, tl, duration = 1, order = "<", onStart = () => { }) {
     console.log("Text animate adding..");
 
     container.innerText = text;
-    const split = new SplitText(container, { type: "chars" });
+    const split = new SplitText(container, { type: "lines, chars"});
     const chars = split.chars;
 
     const fontSizePx = parseFloat(window.getComputedStyle(container).fontSize);
