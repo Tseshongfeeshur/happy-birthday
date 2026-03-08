@@ -29,7 +29,7 @@ window.animateTextIn = async function (text, container, tl, duration = 1, order 
         onComplete: () => console.log("Text entering.."),
     });
 
-    const punctuation = /[\,，\.。\?？\!！；…]/;
+    const punctuation = /[\,，\.。\?？\!、！；…]/;
     let delayAccumulator = 0;
 
     tl.to(chars, {

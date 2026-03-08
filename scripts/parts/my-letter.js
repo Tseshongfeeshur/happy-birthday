@@ -41,7 +41,7 @@ class MyLetter {
                 });
             },
         }, "<");
-        await window.animateTextIn((lastOptionIndex ? window.myLetter[chapterIndex - 1].forks[lastOptionIndex].reaction : "") + window.myLetter[chapterIndex].text,
+        await window.animateTextIn(`${window.myLetter[chapterIndex - 1]?.forks?.[lastOptionIndex]?.reaction || ""}${window.myLetter[chapterIndex].text}`,
             document.getElementById("myl-txt"),
             tl,
             1,
@@ -109,6 +109,7 @@ class MyLetter {
 
     // 绑定监听器
     constructor() {
+        // Han(document.getElementById('myl-txt')).render();
         const optionsBox = document.getElementById("myl-options-box");
         const options = document.querySelectorAll(".myl-option");
         optionsBox.addEventListener("mouseenter", () => {
