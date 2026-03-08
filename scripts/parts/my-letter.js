@@ -3,21 +3,21 @@ class MyLetter {
     inProcess = false;
 
     // 入场动画
-    async enterAnime() {
+    async enterAnime(chapterIndex, lastOptionIndex) {
+        if (!chapterIndex) {
+            this.chapterIndex = 0;
+            chapterIndex = 0;
+        }
         console.log("Page <MyLetter> entering..");
         // 开始入场前就设置 flag
         this.inProcess = true;
         const tl = gsap.timeline();
+        // tl.timeScale(0.1);
         tl.set("#my-letter", {
             display: "flex",
-            // onComplete: () => {
-            //     this.inProcess = false
-            //     this.isOpen = true;
-            //     console.log("Page <MyLetter> entered");
-            // },
         })
         await window.loadSvg(
-            "../../assets/images/my-letter/test.svg",
+            `../../assets/images/my-letter/${chapterIndex}.svg`,
             document.getElementById("myl-svg-box"),
             tl,
         );
@@ -25,9 +25,23 @@ class MyLetter {
             y: 0,
             duration: 1.6,
             ease: "elastic.out(0.6,0.7)",
+            // 提前填充内容，触发重排
+            onStart: () => {
+                const options = document.querySelectorAll(".myl-option");
+                options.forEach((el, index) => {
+                    const option = window.myLetter?.[chapterIndex]?.forks?.[index]?.option;
+                    if (option) {
+                        el.innerText = option;
+                        el.classList.remove("hidden");
+                    } else {
+                        // 隐藏无内容选项
+                        el.innerText = "";
+                        el.classList.add("hidden");
+                    }
+                });
+            },
         }, "<");
-        await window.animateTextIn(
-            "我记得严苛班规下，我因为吵闹被班主任记下的那些“正”字；更记得身为组长的你，从未有过半句指责。你独有的那份温柔与包容，在那时就已初见端倪。",
+        await window.animateTextIn((lastOptionIndex ? window.myLetter[chapterIndex - 1].forks[lastOptionIndex].reaction : "") + window.myLetter[chapterIndex].text,
             document.getElementById("myl-txt"),
             tl,
             1,
@@ -39,6 +53,11 @@ class MyLetter {
             stagger: 0.1,
             duration: 1.4,
             ease: "elastic.out(0.7,1.2)",
+            onComplete: () => {
+                this.inProcess = false
+                this.isOpen = true;
+                console.log("Page <MyLetter> entered");
+            },
         }, "finish-=1.4");
 
         // 返回一个可供 await 的过程
@@ -53,15 +72,37 @@ class MyLetter {
         console.log("Page <MyLetter> leaving..");
         this.inProcess = true;
         const tl = gsap.timeline();
-        tl.set("#my-letter", {
-            display: "none",
-            onComplete: () => {
-                // 出场完成后才设置 flag
-                this.inProcess = false;
-                this.isOpen = false;
-                console.log("Page <MyLetter> leaved");
-            },
-        }, ">");
+        await window.removeSvg(document.getElementById("myl-svg-box"), tl);
+        tl
+            .to("#myl-txt", {
+                y: -1 * window.innerHeight,
+                duration: 0.6,
+                ease: "power2.in",
+                onComplete: () => {
+                    document.getElementById("myl-txt").innerHTML = "";
+                }
+            }, "<")
+            .to(".myl-option", {
+                y: -1 * window.innerHeight,
+                duration: 0.6,
+                stagger: 0.05,
+                ease: "power2.in",
+            }, "<+=0.1")
+            .set("#myl-txt", {
+                y: window.innerHeight,
+            }, ">")
+            .set(".myl-option", {
+                y: window.innerHeight,
+            }, ">")
+            .set("#my-letter", {
+                display: "none",
+                onComplete: () => {
+                    // 出场完成后才设置 flag
+                    this.inProcess = false;
+                    this.isOpen = false;
+                    console.log("Page <MyLetter> leaved");
+                },
+            }, ">");
         // 返回一个可供 await 的过程
         return tl;
     }
@@ -89,13 +130,21 @@ class MyLetter {
                     }
                 });
             });
-
             activeElement.addEventListener("mouseleave", () => {
                 options.forEach((otherElement, otherIndex) => {
                     if (otherIndex != activeIndex) {
                         otherElement.classList.remove("blur");
                     }
                 });
+            });
+            activeElement.addEventListener("click", async () => {
+                if (this.inProcess) {
+                    console.warn(`The last page is already in process`);
+                    window.notify("动画正在进行，请稍等");
+                    return;
+                }
+                else if (this.isOpen) await this.leaveAnime();
+                await this.enterAnime(++this.chapterIndex, activeIndex);
             });
         });
     }

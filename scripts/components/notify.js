@@ -9,13 +9,13 @@ window.notify = function (text) {
         tl
             .to("#notify", {
                 scale: 1.1,
-                duration: 0.2,
+                duration: 0.1,
                 ease: "power2.out",
             })
             .to("#notify", {
                 scale: 1,
-                duration: 0.5,
-                ease: "elastic.out(1,0.7)",
+                duration: 0.3,
+                ease: "power2.out",
             }, ">");
     } else {
         notify.innerText = text;
