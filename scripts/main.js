@@ -25,7 +25,7 @@ function buildPages() {
                     return;
                 }
                 else if (singlePage.isOpen)
-                    singlePage.leaveAnime();
+                    await singlePage.leaveAnime();
             }
         }
         return window.pages[pageName].enterAnime();

@@ -28,15 +28,15 @@ class MyLetter {
             // 提前填充内容，触发重排
             onStart: () => {
                 const options = document.querySelectorAll(".myl-option");
-                options.forEach((el, index) => {
-                    const option = window.myLetter?.[chapterIndex]?.forks?.[index]?.option;
-                    if (option) {
-                        el.innerText = option;
-                        el.classList.remove("hidden");
+                options.forEach((option, index) => {
+                    const optionText = window.myLetter?.[chapterIndex]?.forks?.[index]?.option;
+                    if (optionText) {
+                        option.innerText = optionText;
+                        option.classList.remove("hidden");
                     } else {
                         // 隐藏无内容选项
-                        el.innerText = "";
-                        el.classList.add("hidden");
+                        option.innerText = "";
+                        option.classList.add("hidden");
                     }
                 });
             },
@@ -47,7 +47,7 @@ class MyLetter {
             1,
             "<"
         );
-        tl.add("finish");
+        tl.add("finishAddContent");
         tl.to(".myl-option", {
             y: 0,
             stagger: 0.1,
@@ -58,7 +58,7 @@ class MyLetter {
                 this.isOpen = true;
                 console.log("Page <MyLetter> entered");
             },
-        }, "finish-=1.4");
+        }, "finishAddContent-=1.4");
 
         // 返回一个可供 await 的过程
         return tl;
@@ -74,6 +74,11 @@ class MyLetter {
         const tl = gsap.timeline();
         await window.removeSvg(document.getElementById("myl-svg-box"), tl);
         tl
+            .to("#myl-svg-box svg", {
+                opacity: 0,
+                duration: 0.6,
+                ease: "power2.in",
+            }, "<")
             .to("#myl-txt", {
                 y: -1 * window.innerHeight,
                 duration: 0.6,
@@ -87,22 +92,32 @@ class MyLetter {
                 duration: 0.6,
                 stagger: 0.05,
                 ease: "power2.in",
+                onComplete: () => {
+                    const options = document.querySelectorAll(".myl-option");
+                    options.forEach((option) => {
+                        option.dispatchEvent(new MouseEvent('mouseleave'));
+                    });
+                    // const optionsBox = document.getElementById("myl-options-box");
+                    // optionsBox.dispatchEvent(new MouseEvent('mouseleave'));
+                    // 会造成动画的小瑕疵
+                },
             }, "<+=0.1")
             .set("#myl-txt", {
                 y: window.innerHeight,
             }, ">")
             .set(".myl-option", {
                 y: window.innerHeight,
-            }, ">")
-            .set("#my-letter", {
-                display: "none",
-                onComplete: () => {
-                    // 出场完成后才设置 flag
-                    this.inProcess = false;
-                    this.isOpen = false;
-                    console.log("Page <MyLetter> leaved");
-                },
             }, ">");
+        tl.add("finishRemoveAll", ">");
+        tl.set("#my-letter", {
+            display: "none",
+            onComplete: () => {
+                // 出场完成后才设置 flag
+                this.inProcess = false;
+                this.isOpen = false;
+                console.log("Page <MyLetter> leaved");
+            },
+        }, "finishRemoveAll");
         // 返回一个可供 await 的过程
         return tl;
     }

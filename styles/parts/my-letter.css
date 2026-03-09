@@ -10,13 +10,12 @@
 }
 
 #myl-svg-box {
-    margin: 6rem 1rem 0 1rem;
+    margin: 6rem 2rem 0 2rem;
     flex-grow: 1;
     /* 拿走剩下的所有空间 */
     flex-shrink: 1;
     min-height: 0;
     /* 关键：允许 Flex 子元素缩到比内容还小，防止溢出 */
-
     display: flex;
     justify-content: center;
     align-items: center;
