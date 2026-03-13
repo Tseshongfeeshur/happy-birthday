@@ -1,3 +1,15 @@
+/**
+ * Fisher-Yates 洗牌算法
+ */
+const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+        // 生成 0 到 i 之间的随机索引
+        const j = Math.floor(Math.random() * (i + 1));
+        // 交换元素
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+};
+
 window.myLetter = [
     {
         text: "我要把生命写成一首诗。",
@@ -33,7 +45,7 @@ window.myLetter = [
         text: "小学最初，我们几乎没有交集。当时，你只是一个普通同学。成绩好，很热心，家里有一台打印机。直到第三年一次座位调整，我们变成了前后桌，还恰好被分到同一小组。大概从那时候开始，我才意识到，我的诗里会出现你。",
         forks: [
             {
-                option: ">",
+                option: "嗯嗯",
                 reaction: ""
             }
         ]
@@ -42,7 +54,7 @@ window.myLetter = [
         text: "我们的关系从未经历剧烈的转折。它只是默默钻进时间缝隙，悄悄生根，发芽。它不以物质为凭，不靠仪式维系，不喧嚣，不张扬，一如花开自有声。也许没有那么令人艳羡，但我始终视若珍宝。对我来说，它无可替代：“平凡”本身，就让我甘之如饴。",
         forks: [
             {
-                option: ">",
+                option: "嗯嗯",
                 reaction: ""
             }
         ]
@@ -68,7 +80,7 @@ window.myLetter = [
         text: "后来，你在我眼里越发鲜活可爱。你温和得几乎没有脾气，每次成绩都名列前茅。有一次我帮数学老师整理成绩本，看到你的成绩，也忍不住心生羡慕。你总是这样静静地优秀，好像是我生命中的一颗星星，仰望方见光辉。",
         forks: [
             {
-                option: ">",
+                option: "嗯嗯",
                 reaction: ""
             }
         ]
@@ -77,7 +89,7 @@ window.myLetter = [
         text: "你头发很多，当时的我甚至没办法编一条完整的麻花辫。不知道是几年级的英语课，我正试图分出一缕，笨拙地编成麻花辫，但似乎很悲伤地被老师看到了😭",
         forks: [
             {
-                option: "切，让你嘚瑟",
+                option: "还不是怪你！",
                 reaction: "诶呀，那是我第一次给女生编辫子呢，当时心里还悄悄激动来着。"
             },
             {
@@ -90,7 +102,7 @@ window.myLetter = [
         text: "在那段时间，我们也慢慢靠近，细细磨合。放学回家的那条路上，我几乎每天都会有意寻找你的身影，和你一起走一段路。",
         forks: [
             {
-                option: ">",
+                option: "嗯嗯",
                 reaction: ""
             }
         ]
@@ -99,7 +111,7 @@ window.myLetter = [
         text: "有一天放学，我爸妈都不在家，我说想去你家玩。话刚出口，我自己都愣了一下，而你却很快答应了。惊讶之余，我也有一丝小欣喜。",
         forks: [
             {
-                option: ">",
+                option: "嗯嗯",
                 reaction: ""
             }
         ]
@@ -118,10 +130,10 @@ window.myLetter = [
         ]
     },
     {
-        text: "回家后我仔细想想，还没细想就笑出了声，第二天就找你改了主意。那周五夜里，大雪纷飞，清冷的夜空被雪光映得发亮。积雪的马路上，我们被大雪裹挟着周身，但心是滚烫的。看完《冰雪奇缘II》，我们在回家路上边走边玩，留下深深浅浅的足迹。那一晚的雪光，我至今仍然记忆犹新。",
+        text: "回家后我仔细想想，还没细想就笑出了声，第二天就找你改了主意。那周五夜里，大雪纷飞，清冷的夜空被雪光映得发亮。积雪的马路上，我们被大雪裹挟着周身，但心是滚烫的。看完《冰雪奇缘2》，我们在回家路上边走边玩，留下深深浅浅的足迹。那一晚的雪光，我至今仍然记忆犹新。",
         forks: [
             {
-                option: ">",
+                option: "嗯嗯",
                 reaction: ""
             }
         ]
@@ -130,7 +142,7 @@ window.myLetter = [
         text: "小学毕业的暑假，我也把你叫来家里玩。我们待了一个上午，说的话不多，但我特别开心，感觉洒向大地的阳光都充满了温柔。",
         forks: [
             {
-                option: ">",
+                option: "嗯嗯",
                 reaction: ""
             }
         ]
@@ -152,7 +164,7 @@ window.myLetter = [
         text: "高一下学期，我们在微信玩真心话大冒险，我让你形容在你眼里的我。你思索良久，说我开朗、真诚、有主见。那几个词像一面镜子，擦亮了那个连我自己都尚未察觉的、更好的我。原来在你的注视下，我也能如此闪亮。",
         forks: [
             {
-                option: ">",
+                option: "嗯嗯",
                 reaction: ""
             }
         ]
@@ -161,7 +173,7 @@ window.myLetter = [
         text: "高二暑假一天晚上，为了和你一起散散心，我们在御河边信步，从下午走到晚上。就像我之前说的那样，和你在一起，就算无所事事，我也自得其乐。",
         forks: [
             {
-                option: ">",
+                option: "嗯嗯",
                 reaction: ""
             }
         ]
@@ -170,9 +182,22 @@ window.myLetter = [
         text: "临近你的成年生日，我读着你的信，也想写点文字出来。奈何对着空空的电脑屏幕，我竟一时不知从何说起。我合上电脑，往事如潮涌来，这些字句也随之流淌。余下的三万天，我们要一同书写这首诗。不求绚烂如焰、无拘无束，只希望你不仅是我的星月，更是你自己的英雄。愿你往后一生，身心无恙，岁岁常欢。",
         forks: [
             {
-                option: ">",
+                option: "嗯嗯",
                 reaction: ""
             }
         ]
     }
 ]
+
+// 遍历 window.myLetter 并洗牌所有的 forks
+if (window.myLetter && Array.isArray(window.myLetter)) {
+    window.myLetter.forEach(item => {
+        if (item.forks && Array.isArray(item.forks)) {
+            shuffleArray(item.forks);
+        }
+    });
+
+    console.log("Forks in window.myLetter shuffled");
+} else {
+    console.warn("window.myLetter not found");
+}
