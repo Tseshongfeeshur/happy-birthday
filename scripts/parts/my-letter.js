@@ -156,7 +156,7 @@ class MyLetter {
             activeElement.addEventListener("click", async () => {
                 if (this.inProcess) {
                     console.warn(`The last page is already in process`);
-                    window.notify("动画正在进行，请稍等");
+                    window.notify("请等待动画结束后再操作");
                     return;
                 }
                 else if (this.isOpen) await this.leaveAnime();

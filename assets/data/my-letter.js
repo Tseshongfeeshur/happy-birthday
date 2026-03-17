@@ -131,7 +131,7 @@ window.myLetter = [
                 option: "嗯嗯"
             }
         ],
-        effect: "snow"
+        action: "snow"
     },
     {
         text: "小学毕业的暑假，我也把你叫来家里玩。我们待了一个上午，说的话不多，但我特别开心，感觉洒向大地的阳光都充满了温柔。",
@@ -185,7 +185,8 @@ window.myLetter = [
             {
                 option: "嗯嗯"
             }
-        ]
+        ],
+        action: "ending"
     }
 ]
 

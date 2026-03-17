@@ -14,14 +14,14 @@ function buildPages() {
             return;
         } else if (window.pages[pageName].inProcess) {
             console.warn(`Page ${pageName} is already in process`);
-            window.notify("动画正在进行，请稍等");
+            window.notify("请等待动画结束后再操作");
             return;
         }
         for (const singlePage of Object.values(window.pages)) {
             if (singlePage) {
                 if (singlePage.inProcess) {
                     console.warn(`The last page is already in process`);
-                    window.notify("动画正在进行，请稍等");
+                    window.notify("请等待动画结束后再操作");
                     return;
                 }
                 else if (singlePage.isOpen)

@@ -83,7 +83,7 @@ class Home {
         return tl;
     }
     async openAbout() {
-        const notifyProcessing = () => window.notify("动画正在进行，请稍等");
+        const notifyProcessing = () => window.notify("请等待动画结束后再操作");
         console.log("Widget <About> opening..");
         const vh = window.innerHeight; // 预计算，避免 dvh 实时求值
 
