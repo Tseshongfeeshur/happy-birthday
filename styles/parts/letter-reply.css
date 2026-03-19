@@ -1,0 +1,21 @@
+#letter-reply {
+    flex-direction: column;
+}
+
+#chat-options {
+    display: flex;
+    flex-wrap: nowrap; /* 强制单行 */
+    gap: 15px; /* 卡片间距 */
+    padding: 20px 0;
+    overflow: hidden; /* 隐藏溢出的弹幕 */
+    width: 100%;
+    cursor: grab;
+    user-select: none;
+}
+
+glass-card {
+    flex-shrink: 0; /* 防止卡片被压缩 */
+    white-space: nowrap; /* 防止文字换行 */
+}
+
+/* 如果需要两排，可以包裹两个容器，或者用下面的 JS 逻辑复制一份 */

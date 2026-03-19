@@ -134,7 +134,7 @@ function setUpFireworks() {
     function createFirework(x, y) {
         // true 表示深拷贝
         const instance = window.audioCache["assets/audios/effect/click.mp3"].cloneNode(true);
-        instance.volume = 0.36;
+        instance.volume = 0.1;
         instance.play();
         // 自动销毁
         instance.onended = () => {
