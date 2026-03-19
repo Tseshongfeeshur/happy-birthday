@@ -5,7 +5,7 @@ class MyLetter {
     // 入场动画
     async enterAnime(chapterIndex, lastOptionIndex) {
         this.chapterIndex = chapterIndex || 0;
-        console.log("Page <MyLetter> entering..");
+        console.log(`Page <MyLetter, ${chapterIndex}, ${lastOptionIndex}> entering..`);
         // 开始入场前就设置 flag
         this.inProcess = true;
 

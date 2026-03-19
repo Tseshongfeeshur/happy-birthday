@@ -95,6 +95,9 @@
             return;
         }
 
+        gsap.set(canvas, {
+            opacity: 1,
+        })
         ctx = canvas.getContext('2d');
         stackers = document.querySelectorAll('.snow-stacker');
 
@@ -125,7 +128,12 @@
 
         // 清空画布
         if (ctx && canvas) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            gsap.to(canvas, {
+                opacity: 0,
+                ease: "power2.in",
+                duration: 0.4,
+                onComplete: () => ctx.clearRect(0, 0, canvas.width, canvas.height),
+            })
         }
 
         particles = [];

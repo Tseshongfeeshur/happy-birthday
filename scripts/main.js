@@ -37,107 +37,6 @@ function bindButtons() {
 buildPages();
 bindButtons();
 
-// 定义音频控制函数
-window.AudioController = {
-    playlist: [],
-    currentIndex: 0,
-    currentAudio: null,
-
-    // 洗牌算法
-    _shuffle: function (array) {
-        let m = array.length, t, i;
-        while (m) {
-            i = Math.floor(Math.random() * m--);
-            t = array[m];
-            array[m] = array[i];
-            array[i] = t;
-        }
-        return array;
-    },
-
-    // 核心播放逻辑
-    _playCurrent: function () {
-        if (this.playlist.length === 0) return;
-
-        // 确保索引在范围内
-        if (this.currentIndex >= this.playlist.length) {
-            this.currentIndex = 0;
-        }
-
-        const key = this.playlist[this.currentIndex];
-        const audio = window.audioCache[key];
-
-        if (!audio) {
-            console.warn(`Audio resource "${key}" not found`);
-            this.next();
-            return;
-        }
-
-        // 清理上一个音频的状态
-        if (this.currentAudio) {
-            this.currentAudio.pause();
-            this.currentAudio.onended = null;
-        }
-
-        this.currentAudio = audio;
-        this.currentAudio.currentTime = 0;
-        this.currentAudio.volume = 1;
-
-        // 当前音频播放结束时，自动跳到下一首
-        this.currentAudio.onended = () => {
-            this.next();
-        };
-
-        this.currentAudio.play().catch(err => {
-            console.warn("Playback blocked by browser", err);
-        });
-    },
-
-    // 下一首
-    next: function () {
-        this.currentIndex++;
-
-        // 列表循环逻辑
-        if (this.currentIndex >= this.playlist.length) {
-            this.currentIndex = 0;
-            console.log("Playlist loop restarted");
-        }
-
-        this._playCurrent();
-    },
-
-    // 外部接口
-    audioSwitch: function (audios) {
-        if (!audios || !Array.isArray(audios) || audios.length === 0) {
-            this.stopAll();
-            return;
-        }
-
-        // 停止当前
-        this.stopAll();
-
-        // 洗牌并存入播放列表
-        this.playlist = this._shuffle([...audios]);
-        this.currentIndex = 0;
-
-        // 开始播放
-        this._playCurrent();
-    },
-
-    // 完全停止
-    stopAll: function () {
-        if (this.currentAudio) {
-            this.currentAudio.pause();
-            this.currentAudio.onended = null;
-            this.currentAudio = null;
-        }
-        this.playlist = [];
-        this.currentIndex = 0;
-    }
-};
-
-window.audioSwitch = (audios) => window.AudioController.audioSwitch(audios);
-
 // 全页面初始化
 function initial() {
     const loadingBox = document.getElementById("loading-box");
@@ -147,7 +46,7 @@ function initial() {
 
 
         // 根据cookies设置
-        window.goToPage("home");
+        window.goToPage("letter-reply");
 
 
 
@@ -161,17 +60,7 @@ function initial() {
                 display: "none",
             }, ">");
     }, { once: true });
-    document.addEventListener("click", () => {
-        // true 表示深拷贝
-        const instance = window.audioCache["assets/audios/effect/click.mp3"].cloneNode(true);
-        instance.volume = 0.36;
-        instance.play();
 
-        // 自动销毁
-        instance.onended = () => {
-            instance.remove();
-        };
-    });
     const loadingText = document.getElementById("loading-text");
     loadingText.innerText = "准备就绪";
 }
