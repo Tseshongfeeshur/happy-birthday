@@ -40,6 +40,9 @@ bindButtons();
 // 全页面初始化
 function initial() {
     window.goToPage("my-letter");
+
+
+
     const loadingBox = document.getElementById("loading-box");
     loadingBox.classList.add("finished");
     loadingBox.addEventListener("click", () => {
@@ -54,8 +57,64 @@ function initial() {
             }, ">");
     }, { once: true });
     const loadingText = document.getElementById("loading-text");
-    loadingText.innerText = "资源加载完成";
+    loadingText.innerText = "准备就绪";
 }
 
-// 等待所有资源加载完成
-window.addEventListener('load', initial);
+// 预加载逻辑
+const assetsToLoad = {
+    audio: [
+        'assets/audios/background/alogomora/alohomora.mp3',
+        'assets/audios/background/home/home.mp3',
+        'assets/audios/background/letters/letters-0.mp3',
+        'assets/audios/background/letters/letters-1.mp3',
+        'assets/audios/background/letters/letters-2.mp3',
+        'assets/audios/effect/click.mp3',
+        'assets/audios/effect/firework.mp3'
+    ],
+    // SVG 需要提前载入缓存
+    svg: Array.from({ length: 17 }, (_, i) => `assets/images/my-letter/${i}.svg`)
+};
+
+// 存储加载好的音频实例，后续直接调用 .play()
+const audioCache = {};
+
+async function preloadAll() {
+    const promises = [];
+
+    // 预加载音频
+    assetsToLoad.audio.forEach(src => {
+        const p = new Promise((resolve, reject) => {
+            const audio = new Audio();
+            audio.src = src;
+            audio.preload = 'auto';
+            // canplaythrough 表示音频已足够播放，不需要停顿
+            audio.oncanplaythrough = () => {
+                audioCache[src] = audio;
+                resolve();
+            };
+            audio.onerror = resolve; // 即使失败也继续，防止页面卡死
+        });
+        promises.push(p);
+    });
+
+    // 预加载 SVG
+    assetsToLoad.svg.forEach(src => {
+        const p = new Promise((resolve) => {
+            const img = new Image();
+            img.src = src;
+            img.onload = resolve;
+            img.onerror = resolve;
+        });
+        promises.push(p);
+    });
+
+    // 等待所有资源完成
+    await Promise.all(promises);
+
+    // 进入
+    console.log("Resources loading finished");
+    initial()
+}
+
+// 页面启动
+preloadAll();
