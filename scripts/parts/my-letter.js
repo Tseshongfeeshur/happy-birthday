@@ -22,7 +22,7 @@ class MyLetter {
         );
         tl.to("#myl-txt", {
             y: 0,
-            duration: 1.6,
+            duration: 1,
             ease: "elastic.out(0.6,0.7)",
             // 提前填充内容，触发重排
             onStart: () => {
@@ -52,14 +52,14 @@ class MyLetter {
         tl.to(".myl-option", {
             y: 0,
             stagger: 0.1,
-            duration: 1.4,
-            ease: "elastic.out(0.7,1.2)",
+            duration: 1,
+            ease: "elastic.out(0.6,1.2)",
             onComplete: () => {
                 this.inProcess = false
                 this.isOpen = true;
                 console.log("Page <MyLetter> entered");
             },
-        }, "finishAddContent-=1.4");
+        }, "finishAddContent-=1.3");
 
         // 返回一个可供 await 的过程
         return tl;
