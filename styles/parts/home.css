@@ -155,6 +155,7 @@
     font-family: 'text', 'Noto Serif CJK SC', serif;
     font-size: 1.2rem;
     display: none;
+    
     overflow: auto;
 
     /* 隐藏滚动条 */

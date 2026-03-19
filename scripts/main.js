@@ -1,18 +1,13 @@
 function buildPages() {
     // 初始化 pages 对象
     window.pages = {};
-    window.goToPage = async (pageName) => {
+    window.goToPage = async (pageName, innercode1 = 0, innercode2 = 0) => {
         // 找不到的不管
         if (!window.pages[pageName]) {
             console.error(`Page ${pageName} not found.`);
             return;
         }
-        // 重复打开的不管
-        if (window.pages[pageName].isOpen) {
-            console.warn(`Page ${pageName} is already opened`);
-            window.notify("页面已经打开");
-            return;
-        } else if (window.pages[pageName].inProcess) {
+        if (window.pages[pageName].inProcess) {
             console.warn(`Page ${pageName} is already in process`);
             window.notify("请等待动画结束后再操作");
             return;
@@ -28,7 +23,7 @@ function buildPages() {
                     await singlePage.leaveAnime();
             }
         }
-        return window.pages[pageName].enterAnime();
+        return window.pages[pageName].enterAnime(innercode1, innercode2);
     }
 }
 

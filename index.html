@@ -7,10 +7,11 @@
     <link rel="shortcut icon" href="assets/images/favicon.svg" type="image/svg+xml">
     <!-- 背景 -->
     <link rel="stylesheet" href="styles/background.css">
+    <link rel="stylesheet" href="styles/snow.css">
     <!-- 字体 -->
     <!-- <link rel="stylesheet" href="styles/fonts/original/fonts.css"> -->
     <link rel="stylesheet" href="styles/fonts/particial/方正宋刻本秀楷简体/font.css">
-    <link rel="stylesheet" href="styles/fonts/particial/平方韶华体/font.css">
+    <link rel="stylesheet" href="styles/fonts/particial/方正纸短情长加粗/font.css">
     <link rel="stylesheet" href="styles/fonts/particial/香萃刻宋/font.css">
     <!-- <link rel="stylesheet" href="styles/han/han.min.css"> -->
     <!-- 主样式 -->
@@ -27,6 +28,8 @@
 </head>
 
 <body>
+    <!-- 雪花特效 -->
+    <canvas id="snow-canvas"></canvas>
     <!-- 背景光晕 -->
     <div id="background">
         <div id="glows"></div>
@@ -130,16 +133,44 @@
     <div class="container" id="my-letter">
         <div id="myl-svg-box"></div>
         <div id="myl-content-box">
-            <glass-card id="myl-txt"></glass-card>
+            <glass-card id="myl-txt" class="snow-stacker"></glass-card>
             <div id="myl-options-box">
-                <glass-card class="myl-option" clickable value="0"></glass-card>
-                <glass-card class="myl-option" clickable value="1"></glass-card>
-                <glass-card class="myl-option" clickable value="2"></glass-card>
+                <glass-card class="myl-option snow-stacker" clickable value="0"></glass-card>
+                <glass-card class="myl-option snow-stacker" clickable value="1"></glass-card>
+                <glass-card class="myl-option snow-stacker" clickable value="2"></glass-card>
             </div>
         </div>
     </div>
     <!-- 回信页 -->
     <div class="container" id="letter-reply">
+        <div id="chat-history">
+            <div class="ch-role-2">
+                <glass-card>那不如就送你一封信吧，当作独一无二的礼物。</glass-card>
+            </div>
+            <div class="ch-role-1">
+                <glass-card>费心了费心了，它真的是我从小到大收到过的最棒的礼物！！！</glass-card>
+            </div>
+            <div class="ch-role-2">
+                <glass-card>后来，我们是怎么变成朋友的呢？大概是地理原因？</glass-card>
+            </div>
+            <div class="ch-role-1">
+                <glass-card>这算是一部分吧…——还不是因为我缠着你要处闺蜜…</glass-card>
+            </div>
+            <div class="ch-role-2">
+                <glass-card>一天晚上你加上了我的钉钉，我兴奋地在屋子里转来转去。</glass-card>
+            </div>
+            <div class="ch-role-1">
+                <glass-card>我印象好深刻啊，当时你还没通过的时候我就开始激动了。</glass-card>
+            </div>
+        </div>
+        <div id="chat-options">
+            <glass-card clickable>还记得你和我说，考上一中后想到的是“终于能和我上一个高中”时我的触动（对不起啊，让你的期待落空了，不过一切都是好的安排）。</glass-card>
+            <glass-card clickable>你是对生活饱含着热情的，你未来的道路有着清晰的方向，这些就足以让你的未来像你一样，璀璨，富有生机。我坚信你一定是一块宝石。看，哪怕还未打磨抛光，就已足够夺目。</glass-card>
+            <glass-card clickable>我常常懊恼于自己的内向与社恐，羡慕他人社交时的自在与容。可又时常困惑，自己是该作出改变，还是坦然接纳现在的自己（其实是我哪个都做不到）。</glass-card>
+            <glass-card clickable>你似乎总是那么为他人着想，自己过生日还要请客吃饭。我知道你更在乎此刻的欢聚，这段记忆比任何礼物都要珍贵。</glass-card>
+            <glass-card clickable>还有很多话没来得及说，那就等到未来说吧。</glass-card>
+            <glass-card clickable>我现在的想法就是……会想自己凭什么没有别人好，如果自己足够努力会不会做到。（我）找不到自己喜欢的领域，有感兴趣的却又知道自己没有天赋……</glass-card>
+        </div>
     </div>
 
     <!-- GSAP 动画库 -->
@@ -154,6 +185,7 @@
     <!-- <script src="scripts/han/han.min.js"></script> -->
     <!-- 背景 -->
     <script src="scripts/background.js"></script>
+    <script src="scripts/snow.js"></script>
     <!-- 导入回信数据 -->
     <script src="assets/data/letter-reply.js"></script>
     <!-- 主脚本 -->

@@ -92,8 +92,8 @@
     --glass-bg: rgba(255, 255, 255, 0.22);
     margin-bottom: 0.6rem;
     border-radius: 1.4rem 1.4rem 3px 1.4rem;
-    --padding: 0.4rem 0.9rem;
-    font-size: 1.4rem;
+    --padding: 0.5rem 0.9rem;
+    font-size: 1.12rem;
     font-family: 'option', 'Noto Serif CJK SC', serif;
     transform: translateY(100dvh);
     transition: opacity 0.4s, filter 0.4s;

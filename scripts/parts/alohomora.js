@@ -90,7 +90,7 @@ class Alohomora {
     constructor() {
         const alohomoraButton = document.getElementById("alohomora-button");
         alohomoraButton.addEventListener("click", () => {
-            window.goToPage("my-letter");
+            window.goToPage("my-letter", 0, 0);
         });
     }
 }

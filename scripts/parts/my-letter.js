@@ -4,10 +4,7 @@ class MyLetter {
 
     // 入场动画
     async enterAnime(chapterIndex, lastOptionIndex) {
-        if (!chapterIndex) {
-            this.chapterIndex = 0;
-            chapterIndex = 0;
-        }
+        this.chapterIndex = chapterIndex || 0;
         console.log("Page <MyLetter> entering..");
         // 开始入场前就设置 flag
         this.inProcess = true;
@@ -39,6 +36,8 @@ class MyLetter {
                         option.classList.add("hidden");
                     }
                 });
+                // 显示下雪动画
+                if (window.myLetter?.[chapterIndex]?.action == "snow") window.startSnowAnimation();
             },
         }, "<");
         await window.animateTextIn(`${window.myLetter[chapterIndex - 1]?.forks?.[lastOptionIndex]?.reaction || ""}${window.myLetter[chapterIndex].text}`,
@@ -100,6 +99,9 @@ class MyLetter {
                     // const optionsBox = document.getElementById("myl-options-box");
                     // optionsBox.dispatchEvent(new MouseEvent('mouseleave'));
                     // 会造成动画的小瑕疵
+
+                    // 停止下雪
+                    window.destroySnowAnimation();
                 },
             }, "<+=0.1")
             .set("#myl-txt", {
@@ -159,8 +161,13 @@ class MyLetter {
                     window.notify("请等待动画结束后再操作");
                     return;
                 }
-                else if (this.isOpen) await this.leaveAnime();
-                await this.enterAnime(++this.chapterIndex, activeIndex);
+                else if (this.isOpen);
+                if (window.myLetter?.[this.chapterIndex]?.action == "go-to-letter-reply")
+                    window.goToPage("letter-reply");
+                else if (window.myLetter?.[this.chapterIndex]?.action == "ending")
+                    console.log("todo");
+                else
+                    await window.goToPage("my-letter", ++this.chapterIndex, activeIndex);
             });
         });
     }
