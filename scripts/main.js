@@ -127,22 +127,7 @@ window.AudioController = {
     // 完全停止
     stopAll: function () {
         if (this.currentAudio) {
-            // this.currentAudio.pause();
-
-            let step = 0.05;
-            let interval = duration / (1 / step);
-
-            let fadeTimer = setInterval(() => {
-                if (audio.volume > step) {
-                    audio.volume -= step;
-                } else {
-                    audio.volume = 0;
-                    audio.pause(); // 音量归零后真正停止
-                    audio.currentTime = 0
-                    clearInterval(fadeTimer);
-                }
-            }, interval);
-
+            this.currentAudio.pause();
             this.currentAudio.onended = null;
             this.currentAudio = null;
         }
@@ -185,7 +170,7 @@ window.svgCache = {};
 
 const assetsToLoad = {
     audio: [
-        'assets/audios/background/alogomora/0.mp3',
+        'assets/audios/background/alohomora/0.mp3',
         'assets/audios/background/home/0.mp3',
         'assets/audios/background/letters/0.mp3',
         'assets/audios/background/letters/1.mp3',
