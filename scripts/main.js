@@ -40,6 +40,21 @@ bindButtons();
 // 全页面初始化
 function initial() {
     window.goToPage("my-letter");
+    const loadingBox = document.getElementById("loading-box");
+    loadingBox.classList.add("finished");
+    loadingBox.addEventListener("click", () => {
+        const tl = gsap.timeline();
+        tl
+            .to("#loading-layer", {
+                opacity: 0,
+                ease: "power2.in",
+            })
+            .set("#loading-layer", {
+                display: "none",
+            }, ">");
+    }, { once: true });
+    const loadingText = document.getElementById("loading-text");
+    loadingText.innerText = "资源加载完成";
 }
 
 // 等待所有资源加载完成

@@ -28,6 +28,277 @@
 </head>
 
 <body>
+    <style>
+        #loading-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100dvh;
+            width: 100dvw;
+            color: var(--content-color-primary, white);
+            background-color: black;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #loading-box {
+            position: relative;
+            transition: scale 0.2s ease-out;
+        }
+
+        #loading-box #enter-icon {
+            height: 1rem;
+            width: 1rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: 1s ease-in-out;
+        }
+
+        #loading-box #enter-icon path {
+            fill: white;
+        }
+
+        #loading-box.finished:hover {
+            scale: 1.4;
+        }
+
+        #loading-box.finished:active {
+            scale: 1;
+        }
+
+        #loading-box.finished .loader {
+            animation: blurize 1s ease-in-out forwards;
+        }
+
+        #loading-box.finished #enter-icon {
+            opacity: 1;
+        }
+
+        /* From Uiverse.io by andrew-manzyk */
+        .loader {
+            --color-one: var(--bg-color-1, rgb(12, 87, 226));
+            --color-two: color-mix(in srgb, var(--bg-color-2, rgb(104, 18, 234)) 80%, black);
+            --color-three:
+                color-mix(in srgb,
+                    color-mix(in srgb,
+                        color-mix(in srgb,
+                            var(--bg-color-1, rgb(12, 87, 226)),
+                            var(--bg-color-2, rgb(104, 18, 234))) 80%,
+                        white) 50%,
+                    transparent);
+            --color-four:
+                color-mix(in srgb,
+                    color-mix(in srgb,
+                        color-mix(in srgb,
+                            var(--bg-color-1, rgb(12, 87, 226)),
+                            var(--bg-color-2, rgb(104, 18, 234))) 80%,
+                        black) 50%,
+                    transparent);
+            --color-five:
+                color-mix(in srgb,
+                    color-mix(in srgb,
+                        color-mix(in srgb,
+                            var(--bg-color-1, rgb(12, 87, 226)),
+                            var(--bg-color-2, rgb(104, 18, 234))) 80%,
+                        white) 25%,
+                    transparent);
+            --time-animation: 2s;
+            --size: 1;
+            /* You can change the size */
+            position: relative;
+            border-radius: 50%;
+            transform: scale(var(--size));
+            box-shadow:
+                0 0 25px 0 var(--color-three),
+                0 20px 50px 0 var(--color-four);
+            animation: shimmer calc(var(--time-animation) * 3) ease-in-out infinite;
+            margin: 4rem;
+        }
+
+        .loader::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border-top: solid 1px var(--color-one);
+            border-bottom: solid 1px var(--color-two);
+            background: linear-gradient(180deg, var(--color-five), var(--color-four));
+            box-shadow:
+                inset 0 10px 10px 0 var(--color-three),
+                inset 0 -10px 10px 0 var(--color-four);
+        }
+
+        .loader .box {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(180deg,
+                    var(--color-one) 30%,
+                    var(--color-two) 70%);
+            mask: url(#clipping);
+            -webkit-mask: url(#clipping);
+        }
+
+        .loader svg {
+            position: absolute;
+        }
+
+        .loader svg #clipping {
+            filter: contrast(15);
+            animation: roundness calc(var(--time-animation) / 2) linear infinite;
+        }
+
+        .loader svg #clipping polygon {
+            filter: blur(7px);
+        }
+
+        .loader svg #clipping polygon:nth-child(1) {
+            transform-origin: 75% 25%;
+            transform: rotate(90deg);
+        }
+
+        .loader svg #clipping polygon:nth-child(2) {
+            transform-origin: 50% 50%;
+            animation: rotation var(--time-animation) linear infinite reverse;
+        }
+
+        .loader svg #clipping polygon:nth-child(3) {
+            transform-origin: 50% 60%;
+            animation: rotation var(--time-animation) linear infinite;
+            animation-delay: calc(var(--time-animation) / -3);
+        }
+
+        .loader svg #clipping polygon:nth-child(4) {
+            transform-origin: 40% 40%;
+            animation: rotation var(--time-animation) linear infinite reverse;
+        }
+
+        .loader svg #clipping polygon:nth-child(5) {
+            transform-origin: 40% 40%;
+            animation: rotation var(--time-animation) linear infinite reverse;
+            animation-delay: calc(var(--time-animation) / -2);
+        }
+
+        .loader svg #clipping polygon:nth-child(6) {
+            transform-origin: 60% 40%;
+            animation: rotation var(--time-animation) linear infinite;
+        }
+
+        .loader svg #clipping polygon:nth-child(7) {
+            transform-origin: 60% 40%;
+            animation: rotation var(--time-animation) linear infinite;
+            animation-delay: calc(var(--time-animation) / -1.5);
+        }
+
+        @keyframes rotation {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes roundness {
+            0% {
+                filter: contrast(15);
+            }
+
+            20% {
+                filter: contrast(3);
+            }
+
+            40% {
+                filter: contrast(3);
+            }
+
+            60% {
+                filter: contrast(15);
+            }
+
+            100% {
+                filter: contrast(15);
+            }
+        }
+
+        @keyframes shimmer {
+
+            0%,
+            100% {
+                filter: brightness(1);
+            }
+
+            50% {
+                filter: brightness(1.8);
+            }
+        }
+
+        @keyframes blurize {
+
+            0% {
+                filter: blur(0);
+            }
+
+            100% {
+                filter: blur(8px);
+            }
+        }
+
+        @keyframes appear {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        #loading-text {
+            font-size: 1.4rem;
+            font-family: 'text', 'Noto Serif CJK SC', serif;
+        }
+    </style>
+    <div id="loading-layer">
+        <div id="loading-box">
+            <!-- From Uiverse.io by andrew-manzyk -->
+            <div class="loader" id="loader">
+                <svg width="100" height="100" viewBox="0 0 100 100">
+                    <defs>
+                        <mask id="clipping">
+                            <polygon points="0,0 100,0 100,100 0,100" fill="black"></polygon>
+                            <polygon points="25,25 75,25 50,75" fill="white"></polygon>
+                            <polygon points="50,25 75,75 25,75" fill="white"></polygon>
+                            <polygon points="35,35 65,35 50,65" fill="white"></polygon>
+                            <polygon points="35,35 65,35 50,65" fill="white"></polygon>
+                            <polygon points="35,35 65,35 50,65" fill="white"></polygon>
+                            <polygon points="35,35 65,35 50,65" fill="white"></polygon>
+                        </mask>
+                    </defs>
+                </svg>
+                <div class="box"></div>
+            </div>
+            <svg id="enter-icon" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 256 512"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.-->
+                <path
+                    d="M247.1 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L179.2 256 41.9 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" />
+            </svg>
+        </div>
+
+        <div id="loading-text">
+            正在加载资源
+        </div>
+    </div>
+
     <!-- 雪花特效 -->
     <canvas id="snow-canvas"></canvas>
     <!-- 背景光晕 -->
@@ -165,7 +436,8 @@
         </div>
         <div id="chat-options">
             <glass-card clickable>还记得你和我说，考上一中后想到的是“终于能和我上一个高中”时我的触动（对不起啊，让你的期待落空了，不过一切都是好的安排）。</glass-card>
-            <glass-card clickable>你是对生活饱含着热情的，你未来的道路有着清晰的方向，这些就足以让你的未来像你一样，璀璨，富有生机。我坚信你一定是一块宝石。看，哪怕还未打磨抛光，就已足够夺目。</glass-card>
+            <glass-card
+                clickable>你是对生活饱含着热情的，你未来的道路有着清晰的方向，这些就足以让你的未来像你一样，璀璨，富有生机。我坚信你一定是一块宝石。看，哪怕还未打磨抛光，就已足够夺目。</glass-card>
             <glass-card clickable>我常常懊恼于自己的内向与社恐，羡慕他人社交时的自在与容。可又时常困惑，自己是该作出改变，还是坦然接纳现在的自己（其实是我哪个都做不到）。</glass-card>
             <glass-card clickable>你似乎总是那么为他人着想，自己过生日还要请客吃饭。我知道你更在乎此刻的欢聚，这段记忆比任何礼物都要珍贵。</glass-card>
             <glass-card clickable>还有很多话没来得及说，那就等到未来说吧。</glass-card>
