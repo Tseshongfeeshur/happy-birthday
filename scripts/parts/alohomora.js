@@ -12,7 +12,7 @@ class Alohomora {
             display: "flex",
         });
         await window.loadSvg(
-            "../../assets/images/alohomora/0.svg",
+            window.svgCache["alohomora"][0],
             document.getElementById("alohomora-svg-box"),
             tl
         );

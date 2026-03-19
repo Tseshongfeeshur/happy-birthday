@@ -60,7 +60,9 @@ function initial() {
     loadingText.innerText = "准备就绪";
 }
 
-// 预加载逻辑
+window.audioCache = {};
+window.svgCache = {};
+
 const assetsToLoad = {
     audio: [
         'assets/audios/background/alogomora/alohomora.mp3',
@@ -71,49 +73,73 @@ const assetsToLoad = {
         'assets/audios/effect/click.mp3',
         'assets/audios/effect/firework.mp3'
     ],
-    // SVG 需要提前载入缓存
-    svg: Array.from({ length: 17 }, (_, i) => `assets/images/my-letter/${i}.svg`)
+    svg: [
+        'assets/images/alohomora/0.svg',
+        ...Array.from({ length: 17 }, (_, i) => `assets/images/my-letter/${i}.svg`)
+    ]
 };
 
-// 存储加载好的音频实例，后续直接调用 .play()
-const audioCache = {};
+// 工具函数：获取文件名
+const getFileName = (path) => path.split('/').pop().split('.')[0];
+
+// 工具函数：获取父文件夹名
+const getPageName = (path) => {
+    const parts = path.split('/');
+    return parts[parts.length - 2]; 
+};
 
 async function preloadAll() {
     const promises = [];
 
     // 预加载音频
     assetsToLoad.audio.forEach(src => {
-        const p = new Promise((resolve, reject) => {
+        const p = new Promise((resolve) => {
             const audio = new Audio();
+            const key = getFileName(src);
             audio.src = src;
             audio.preload = 'auto';
-            // canplaythrough 表示音频已足够播放，不需要停顿
             audio.oncanplaythrough = () => {
-                audioCache[src] = audio;
+                window.audioCache[key] = audio;
                 resolve();
             };
-            audio.onerror = resolve; // 即使失败也继续，防止页面卡死
+            audio.onerror = () => {
+                console.warn(`Audio load failed: ${src}`);
+                resolve();
+            };
         });
         promises.push(p);
     });
 
     // 预加载 SVG
     assetsToLoad.svg.forEach(src => {
-        const p = new Promise((resolve) => {
-            const img = new Image();
-            img.src = src;
-            img.onload = resolve;
-            img.onerror = resolve;
-        });
+        const pageName = getPageName(src);
+        const fileName = getFileName(src);
+        
+        const p = fetch(src)
+            .then(res => {
+                if (!res.ok) throw new Error();
+                return res.text();
+            })
+            .then(svgCode => {
+                // 如果该页面对象还没创建，先初始化它
+                if (!window.svgCache[pageName]) {
+                    window.svgCache[pageName] = {};
+                }
+                window.svgCache[pageName][fileName] = svgCode;
+            })
+            .catch(() => console.warn(`SVG load failed: ${src}`));
+            
         promises.push(p);
     });
 
-    // 等待所有资源完成
     await Promise.all(promises);
 
-    // 进入
-    console.log("Resources loading finished");
-    initial()
+    console.log("Resources loaded:", {
+        audioKeys: Object.keys(window.audioCache),
+        svgPages: Object.keys(window.svgCache)
+    });
+    
+    initial();
 }
 
 // 页面启动

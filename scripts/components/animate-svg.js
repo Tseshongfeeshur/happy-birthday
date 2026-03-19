@@ -3,19 +3,15 @@ gsap.registerPlugin(DrawSVGPlugin);
 
 /**
  * SVG 描边动画
- * @param {string} url - SVG 文件地址
+ * @param {string} svgText - SVG 文件
  * @param {HTMLElement} container - 目标 DOM 容器
  * @param {Object} tl - 要操作的时间线
  * @param {number} duration - 动画时长
  * @param {String} order - 动画顺序
  */
-window.loadSvg = async function (url, container, tl, duration = 1, order = "<") {
+window.loadSvg = async function (svgText, container, tl, duration = 1, order = "<") {
     console.log("SVG animate adding..");
     try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-        const svgText = await response.text();
         container.innerHTML = svgText;
 
         const paths = container.querySelectorAll("path, circle, rect, polyline");

@@ -14,7 +14,7 @@ class MyLetter {
             display: "flex",
         })
         await window.loadSvg(
-            `../../assets/images/my-letter/${chapterIndex}.svg`,
+            window.svgCache["my-letter"][chapterIndex],
             document.getElementById("myl-svg-box"),
             tl,
         );
