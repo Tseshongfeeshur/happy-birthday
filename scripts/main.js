@@ -143,10 +143,10 @@ function initial() {
     const loadingBox = document.getElementById("loading-box");
     loadingBox.classList.add("finished");
     loadingBox.addEventListener("click", () => {
-        window.audioCache["assets/audios/effect/click.mp3"].play();
 
 
 
+        // 根据cookies设置
         window.goToPage("home");
 
 
@@ -161,6 +161,17 @@ function initial() {
                 display: "none",
             }, ">");
     }, { once: true });
+    document.addEventListener("click", () => {
+        // true 表示深拷贝
+        const instance = window.audioCache["assets/audios/effect/click.mp3"].cloneNode(true);
+        instance.volume = 0.36;
+        instance.play();
+
+        // 自动销毁
+        instance.onended = () => {
+            instance.remove();
+        };
+    });
     const loadingText = document.getElementById("loading-text");
     loadingText.innerText = "准备就绪";
 }

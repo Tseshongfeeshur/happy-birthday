@@ -9,6 +9,7 @@ class Alohomora {
         this.inProcess = true;
 
         window.audioSwitch(['assets/audios/background/alohomora/0.mp3']);
+        setTimeout(() => window.audioCache["assets/audios/effect/firework.mp3"].play(), 3000);
         const tl = gsap.timeline();
         tl.set("#alohomora", {
             display: "flex",
@@ -29,21 +30,20 @@ class Alohomora {
                 for (let i = 0; i < 10; i++) {
                     setTimeout(() => {
                         window.firework.launch(Math.random() * width * 0.8 + width * 0.1, Math.random() * window.innerHeight * 0.2 + 20);
-                    }, i * 140);
+                    }, i * 160);
                 }
             }
         );
-        tl
-            .to("#alohomora-button", {
-                scale: 1,
-                duration: 1.2,
-                ease: "elastic.out(1,0.7)",
-                onComplete: () => {
-                    this.inProcess = false;
-                    this.isOpen = true;
-                    console.log("Page <Alohomora> entered");
-                },
-            }, ">");
+        tl.to("#alohomora-button", {
+            scale: 1,
+            duration: 1.2,
+            ease: "elastic.out(1,0.7)",
+            onComplete: () => {
+                this.inProcess = false;
+                this.isOpen = true;
+                console.log("Page <Alohomora> entered");
+            },
+        }, ">");
 
         // 返回一个可供 await 的过程
         return tl;

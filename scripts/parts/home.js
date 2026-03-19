@@ -124,7 +124,7 @@ class Home {
         tl.to(aboutItems, {
             y: 0,
             duration: 1.2,
-            ease: "elastic.out(0.8, 0.7)",
+            ease: "elastic.out(0.6, 0.7)",
             stagger: 0.02,
             onComplete: () => {
                 document.getElementById("about-box").removeEventListener("click", notifyProcessing);
