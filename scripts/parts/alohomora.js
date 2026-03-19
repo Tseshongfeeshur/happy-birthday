@@ -7,12 +7,14 @@ class Alohomora {
         console.log("Page <Alohomora> entering..");
         // 开始入场前就设置 flag
         this.inProcess = true;
+
+        window.audioSwitch(['assets/audios/background/alohomora/0.mp3']);
         const tl = gsap.timeline();
         tl.set("#alohomora", {
             display: "flex",
         });
         await window.loadSvg(
-            window.svgCache["alohomora"][0],
+            window.svgCache["assets/images/alohomora/0.svg"],
             document.getElementById("alohomora-svg-box"),
             tl
         );

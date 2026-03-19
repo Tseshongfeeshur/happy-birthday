@@ -37,15 +37,135 @@ function bindButtons() {
 buildPages();
 bindButtons();
 
+// 定义音频控制函数
+window.AudioController = {
+    playlist: [],
+    currentIndex: 0,
+    currentAudio: null,
+
+    // 洗牌算法
+    _shuffle: function (array) {
+        let m = array.length, t, i;
+        while (m) {
+            i = Math.floor(Math.random() * m--);
+            t = array[m];
+            array[m] = array[i];
+            array[i] = t;
+        }
+        return array;
+    },
+
+    // 核心播放逻辑
+    _playCurrent: function () {
+        if (this.playlist.length === 0) return;
+
+        // 确保索引在范围内
+        if (this.currentIndex >= this.playlist.length) {
+            this.currentIndex = 0;
+        }
+
+        const key = this.playlist[this.currentIndex];
+        const audio = window.audioCache[key];
+
+        if (!audio) {
+            console.warn(`Audio resource "${key}" not found`);
+            this.next();
+            return;
+        }
+
+        // 清理上一个音频的状态
+        if (this.currentAudio) {
+            this.currentAudio.pause();
+            this.currentAudio.onended = null;
+        }
+
+        this.currentAudio = audio;
+        this.currentAudio.currentTime = 0;
+        this.currentAudio.volume = 1;
+
+        // 当前音频播放结束时，自动跳到下一首
+        this.currentAudio.onended = () => {
+            this.next();
+        };
+
+        this.currentAudio.play().catch(err => {
+            console.warn("Playback blocked by browser", err);
+        });
+    },
+
+    // 下一首
+    next: function () {
+        this.currentIndex++;
+
+        // 列表循环逻辑
+        if (this.currentIndex >= this.playlist.length) {
+            this.currentIndex = 0;
+            console.log("Playlist loop restarted");
+        }
+
+        this._playCurrent();
+    },
+
+    // 外部接口
+    audioSwitch: function (audios) {
+        if (!audios || !Array.isArray(audios) || audios.length === 0) {
+            this.stopAll();
+            return;
+        }
+
+        // 停止当前
+        this.stopAll();
+
+        // 洗牌并存入播放列表
+        this.playlist = this._shuffle([...audios]);
+        this.currentIndex = 0;
+
+        // 开始播放
+        this._playCurrent();
+    },
+
+    // 完全停止
+    stopAll: function () {
+        if (this.currentAudio) {
+            // this.currentAudio.pause();
+
+            let step = 0.05;
+            let interval = duration / (1 / step);
+
+            let fadeTimer = setInterval(() => {
+                if (audio.volume > step) {
+                    audio.volume -= step;
+                } else {
+                    audio.volume = 0;
+                    audio.pause(); // 音量归零后真正停止
+                    audio.currentTime = 0
+                    clearInterval(fadeTimer);
+                }
+            }, interval);
+
+            this.currentAudio.onended = null;
+            this.currentAudio = null;
+        }
+        this.playlist = [];
+        this.currentIndex = 0;
+    }
+};
+
+window.audioSwitch = (audios) => window.AudioController.audioSwitch(audios);
+
 // 全页面初始化
 function initial() {
-    window.goToPage("my-letter");
-
-
-
     const loadingBox = document.getElementById("loading-box");
     loadingBox.classList.add("finished");
     loadingBox.addEventListener("click", () => {
+        window.audioCache["assets/audios/effect/click.mp3"].play();
+
+
+
+        window.goToPage("home");
+
+
+
         const tl = gsap.timeline();
         tl
             .to("#loading-layer", {
@@ -65,11 +185,11 @@ window.svgCache = {};
 
 const assetsToLoad = {
     audio: [
-        'assets/audios/background/alogomora/alohomora.mp3',
-        'assets/audios/background/home/home.mp3',
-        'assets/audios/background/letters/letters-0.mp3',
-        'assets/audios/background/letters/letters-1.mp3',
-        'assets/audios/background/letters/letters-2.mp3',
+        'assets/audios/background/alogomora/0.mp3',
+        'assets/audios/background/home/0.mp3',
+        'assets/audios/background/letters/0.mp3',
+        'assets/audios/background/letters/1.mp3',
+        'assets/audios/background/letters/2.mp3',
         'assets/audios/effect/click.mp3',
         'assets/audios/effect/firework.mp3'
     ],
@@ -79,15 +199,6 @@ const assetsToLoad = {
     ]
 };
 
-// 工具函数：获取文件名
-const getFileName = (path) => path.split('/').pop().split('.')[0];
-
-// 工具函数：获取父文件夹名
-const getPageName = (path) => {
-    const parts = path.split('/');
-    return parts[parts.length - 2]; 
-};
-
 async function preloadAll() {
     const promises = [];
 
@@ -95,11 +206,10 @@ async function preloadAll() {
     assetsToLoad.audio.forEach(src => {
         const p = new Promise((resolve) => {
             const audio = new Audio();
-            const key = getFileName(src);
             audio.src = src;
             audio.preload = 'auto';
             audio.oncanplaythrough = () => {
-                window.audioCache[key] = audio;
+                window.audioCache[src] = audio;
                 resolve();
             };
             audio.onerror = () => {
@@ -112,23 +222,16 @@ async function preloadAll() {
 
     // 预加载 SVG
     assetsToLoad.svg.forEach(src => {
-        const pageName = getPageName(src);
-        const fileName = getFileName(src);
-        
         const p = fetch(src)
             .then(res => {
                 if (!res.ok) throw new Error();
                 return res.text();
             })
             .then(svgCode => {
-                // 如果该页面对象还没创建，先初始化它
-                if (!window.svgCache[pageName]) {
-                    window.svgCache[pageName] = {};
-                }
-                window.svgCache[pageName][fileName] = svgCode;
+                window.svgCache[src] = svgCode;
             })
             .catch(() => console.warn(`SVG load failed: ${src}`));
-            
+
         promises.push(p);
     });
 
@@ -138,7 +241,7 @@ async function preloadAll() {
         audioKeys: Object.keys(window.audioCache),
         svgPages: Object.keys(window.svgCache)
     });
-    
+
     initial();
 }
 
