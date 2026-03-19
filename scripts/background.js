@@ -247,7 +247,7 @@ function setUpFireworks() {
     }
 
     window.addEventListener('mousedown', e => onPointer(e.clientX, e.clientY), { passive: true });
-    window.addEventListener('touchstart', e => onPointer(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+    // window.addEventListener('touchstart', e => onPointer(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
 
     return { launch: onPointer };
 }

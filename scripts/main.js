@@ -60,8 +60,7 @@ function initial() {
                 display: "none",
             }, ">");
     }, { once: true });
-
-    document.addEventListener("mousedown", () => {
+    const playClickSound = () => {
         // true 表示深拷贝
         const instance = window.audioCache["assets/audios/effect/click.mp3"].cloneNode(true);
         instance.volume = 0.36;
@@ -71,7 +70,9 @@ function initial() {
         instance.onended = () => {
             instance.remove();
         };
-    });
+    }
+    document.addEventListener("mousedown", playClickSound);
+    // document.addEventListener("touchstart", playClickSound);
     const loadingText = document.getElementById("loading-text");
     loadingText.innerText = "准备就绪";
 }
