@@ -59,11 +59,11 @@
 }
 
 #alohomora-words {
-    font-weight: 900;
+    /* font-weight: 900; */
     /* color: var(--content-color-primary); */
     color: color-mix(in srgb, color-mix(in srgb, var(--bg-color-1) 50%, var(--bg-color-2) 50%), white 60%);
-    font-family: text, 'Noto Serif CJK SC', serif;
-    font-size: 2.6rem;
+    font-family: 'text-en', 'Noto Serif CJK SC', serif;
+    font-size: 2.4rem;
 
     text-align: left;
     white-space: nowrap; /* 或者 pre-wrap，防止空格被合并 */

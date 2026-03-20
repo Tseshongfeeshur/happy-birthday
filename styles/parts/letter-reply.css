@@ -70,4 +70,24 @@
 #chat-options {
     height: 25vh;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#co-line-1,
+#co-line-2 {
+    display: block;
+    position: relative;
+}
+
+#chat-options div glass-card {
+    /* position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 50%); */
+    --glass-bg: rgba(255, 255, 255, 0.22);
+    border-radius: 2rem 2rem 2rem 2rem;
+    --padding: 0.8rem 1.4rem;
+    font-size: 1.12rem;
+    font-family: 'option', 'Noto Serif CJK SC', serif;
 }

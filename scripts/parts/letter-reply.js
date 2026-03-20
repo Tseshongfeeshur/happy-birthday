@@ -63,7 +63,6 @@ class LetterReply {
         }
     }
 
-
     // 入场动画
     async enterAnime() {
         console.log("Page <LetterReply> entering..");
@@ -82,6 +81,7 @@ class LetterReply {
         // 返回一个可供 await 的过程
         return tl;
     };
+
     //出场动画
     async leaveAnime() {
         if (this.inProcess) {
@@ -107,7 +107,6 @@ class LetterReply {
 
     // 绑定监听器
     constructor() {
-        window.addMessage = this.addMessage;
     }
 }
 

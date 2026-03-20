@@ -88,11 +88,15 @@ const assetsToLoad = {
         },
         {
             name: "title-en", 
-            src: "styles/fonts/Syne/subset.woff2"
+            src: "styles/fonts/Syne-ExtraBold/subset.woff2"
         },
         {
             name: "text", 
-            src: "styles/fonts/text/subset.woff2"
+            src: "styles/fonts/朱雀仿宋/subset.woff2"
+        },
+        {
+            name: "text-en", 
+            src: "styles/fonts/Syne-Medium/subset.woff2"
         },
         {
             name: "option", 

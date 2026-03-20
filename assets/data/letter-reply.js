@@ -11,7 +11,7 @@
         }
     };
 
-    letterReply = [
+    let data = [
         {
             short: "那不如就送你一封信吧…",
             quote: "那不如就送你一封信吧，当作独一无二的礼物。",
@@ -59,17 +59,17 @@
         }
     ];
 
-    // 遍历 letterReply 并洗牌均分所有的元素
-    if (letterReply && Array.isArray(letterReply)) {
-        shuffleArray(letterReply);
+    // 遍历 data 并洗牌均分所有的元素
+    if (data && Array.isArray(data)) {
+        shuffleArray(data);
 
         // 均分
         window.letterReply = [];
-        const midIndex = Math.ceil(letterReply.length / 2);
-        window.letterReply[0] = letterReply.slice(0, midIndex);
-        window.letterReply[1] = letterReply.slice(midIndex);
-        console.log("Items in letterReply shuffled");
+        const midIndex = Math.ceil(data.length / 2);
+        window.letterReply[0] = data.slice(0, midIndex);
+        window.letterReply[1] = data.slice(midIndex);
+        console.log("Items in data shuffled");
     } else {
-        console.warn("letterReply not found");
+        console.warn("data not found");
     }
 })();
