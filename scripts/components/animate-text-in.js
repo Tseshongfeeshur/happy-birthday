@@ -14,7 +14,7 @@ window.animateTextIn = async function (text, container, tl, duration = 1, order 
     console.log("Text animate adding..");
 
     container.innerText = text;
-    const split = new SplitText(container, { type: "lines, chars"});
+    const split = new SplitText(container, { type: text == "Happy Birthday!" ? "words, chars" : "lines, chars" });
     const chars = split.chars;
 
     const fontSizePx = parseFloat(window.getComputedStyle(container).fontSize);

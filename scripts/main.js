@@ -80,6 +80,24 @@ const assetsToLoad = {
     svg: [
         'assets/images/alohomora/0.svg',
         ...Array.from({ length: 17 }, (_, i) => `assets/images/my-letter/${i}.svg`)
+    ],
+    fonts: [
+        {
+            name: "title", 
+            src: "styles/fonts/香萃刻宋/subset.woff2"
+        },
+        {
+            name: "title-en", 
+            src: "styles/fonts/Syne/subset.woff2"
+        },
+        {
+            name: "text", 
+            src: "styles/fonts/text/subset.woff2"
+        },
+        {
+            name: "option", 
+            src: "styles/fonts/option/subset.woff2"
+        },
     ]
 };
 
@@ -115,6 +133,20 @@ async function preloadAll() {
                 window.svgCache[src] = svgCode;
             })
             .catch(() => console.warn(`SVG load failed: ${src}`));
+
+        promises.push(p);
+    });
+
+    // 预加载字体
+    assetsToLoad.fonts.forEach(font => {
+        const p = new FontFace(font.name, `url(${font.src})`)
+            .load()
+            .then(loadedFont => {
+                document.fonts.add(loadedFont);
+            })
+            .catch(err => {
+                console.warn(`Font load failed: ${font.name} at ${font.src}`, err);
+            });
 
         promises.push(p);
     });
