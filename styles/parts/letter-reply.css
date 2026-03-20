@@ -2,20 +2,72 @@
     flex-direction: column;
 }
 
-#chat-options {
+#chat-history {
     display: flex;
-    flex-wrap: nowrap; /* 强制单行 */
-    gap: 15px; /* 卡片间距 */
-    padding: 20px 0;
-    overflow: hidden; /* 隐藏溢出的弹幕 */
+    flex-direction: column-reverse;
+    height: calc(75vh - 5rem);
+    width: calc(100% - 2rem * 2);
+    padding: 5rem 2rem 3rem 2rem;
+
+    overflow: auto;
+
+    /* 隐藏滚动条 */
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    /* 透明度渐变遮罩 */
+    -webkit-mask-image: linear-gradient(to bottom,
+        transparent 0%,
+        black 10%,
+        black 90%,
+        transparent 100%);
+    mask-image: linear-gradient(to bottom,
+        transparent 0%,
+        black 15%,
+        black 85%,
+        transparent 100%);
+}
+
+.ch-role-1 {
     width: 100%;
-    cursor: grab;
-    user-select: none;
+    padding-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
-glass-card {
-    flex-shrink: 0; /* 防止卡片被压缩 */
-    white-space: nowrap; /* 防止文字换行 */
+.ch-role-2 {
+    width: 100%;
+    padding-bottom: 0.6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }
 
-/* 如果需要两排，可以包裹两个容器，或者用下面的 JS 逻辑复制一份 */
+.ch-role-1 glass-card {
+    max-width: 90%;
+    border-radius: 1.4rem 1.4rem 1.4rem 3px;
+    --padding: 0.5rem 0.9rem;
+    font-size: 1.1rem;
+    letter-spacing: 0px;
+    line-height: 1.5rem;
+    font-family: 'text', 'Noto Serif CJK SC', serif;
+}
+
+.ch-role-2 glass-card {
+    --glass-bg: rgba(255, 255, 255, 0.22);
+    max-width: 90%;
+    border-radius: 1.4rem 1.4rem 3px 1.4rem;
+    --padding: 0.5rem 0.9rem;
+    font-size: 1.12rem;
+    font-family: 'option', 'Noto Serif CJK SC', serif;
+}
+
+
+#chat-options {
+    height: 25vh;
+    width: 100%;
+}

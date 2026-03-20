@@ -1,13 +1,74 @@
 class LetterReply {
     isOpen = false;
     inProcess = false;
+
+    // 追加消息函数
+    async addMessage(role, msg, tl) {
+        if (!tl) tl = gsap.timeline();
+
+        const box = document.createElement("div");
+        box.classList.add(`ch-role-${role}`);
+        const card = document.createElement("glass-card");
+        box.appendChild(card);
+        const container = document.getElementById("chat-history");
+
+        if (role == 1) {
+            await window.animateTextIn(msg, card, tl, 1, "<");
+
+            tl
+                .set(box, {
+                    opacity: 0,
+                    onComplete: () => container.prepend(box),
+                }, "<")
+                .set(box, {
+                    y: () => box.offsetHeight,
+                }, ">")
+                .fromTo(".ch-role-1, .ch-role-2", {
+                    y: () => box.offsetHeight,
+                }, {
+                    y: 0,
+                    ease: "power2.inOut",
+                    duration: 0.6,
+                }, ">")
+                .to(box, {
+                    opacity: 1,
+                    y: 0,
+                    ease: "power2.inOut",
+                    duration: 0.6,
+                }, "<");
+
+        } else if (role == 2) {
+            card.innerText = msg;
+            tl
+                .set(box, {
+                    opacity: 0,
+                    onComplete: () => container.prepend(box),
+                })
+                .set(box, {
+                    y: () => box.offsetHeight,
+                })
+                .fromTo(".ch-role-1, .ch-role-2", {
+                    y: () => box.offsetHeight,
+                }, {
+                    y: 0,
+                    ease: "power2.inOut",
+                    duration: 0.6,
+                }, ">")
+                .to(box, {
+                    opacity: 1,
+                    y: 0,
+                    ease: "power2.inOut",
+                    duration: 0.6,
+                }, "<");
+        }
+    }
+
+
     // 入场动画
     async enterAnime() {
         console.log("Page <LetterReply> entering..");
         // 开始入场前就设置 flag
         this.inProcess = true;
-
-        window.audioSwitch(['assets/audios/background/letters/0.mp3', 'assets/audios/background/letters/1.mp3', 'assets/audios/background/letters/2.mp3']);
         const tl = gsap.timeline();
         tl
             .set("#letter-reply", {
@@ -46,6 +107,7 @@ class LetterReply {
 
     // 绑定监听器
     constructor() {
+        window.addMessage = this.addMessage;
     }
 }
 

@@ -6,12 +6,12 @@
     align-items: center;
     flex-direction: column;
     margin: 20dvh 5dvh 0 5dvh;
-    font-family: 'title', 'Noto Serif CJK SC', serif;
     transform: translateY(calc((20vw + 300px) * -1));
 }
 
 /* 标题 */
 #home-title {
+    font-family: 'title', 'Noto Serif CJK SC', serif;
     color: var(--content-color-primary);
     margin: 0;
     font-size: 4.2rem;
@@ -25,8 +25,9 @@
 
 /* 标题英文 */
 #home-title-en {
+    font-family: 'title-en', 'Noto Serif CJK SC', serif;
     color: var(--content-color-secondary);
-    font-size: 2.4rem;
+    font-size: 2rem;
 }
 
 @media (min-width: 1000px) {
@@ -167,10 +168,10 @@
     -ms-overflow-style: none;
     /* 透明度渐变遮罩 */
     -webkit-mask-image: linear-gradient(to bottom,
-        transparent 0%,
-        black 10%,
-        black 90%,
-        transparent 100%);
+        transparent 6%,
+        black 15%,
+        black 85%,
+        transparent 94%);
     mask-image: linear-gradient(to bottom,
         transparent 6%,
         black 15%,
