@@ -17,7 +17,7 @@ window.animateTextIn = async function (text, container, tl, duration = 1, order 
     const split = new SplitText(container, { type: text == "Happy Birthday!" ? "words, chars" : "lines, chars" });
     const chars = split.chars;
 
-    const fontSizePx = parseFloat(window.getComputedStyle(container).fontSize);
+    const fontSizePx = parseFloat(window.getComputedStyle(container).fontSize) | 16;
 
     // 初始化状态
     gsap.set(chars, {
@@ -46,7 +46,7 @@ window.animateTextIn = async function (text, container, tl, duration = 1, order 
         },
         onStart,
         onComplete: () => {
-            split.revert(); // 清理标签，恢复 DOM 原貌
+            // split.revert(); // 清理标签，恢复 DOM 原貌
             console.log("Text entered");
         }
     }, order);

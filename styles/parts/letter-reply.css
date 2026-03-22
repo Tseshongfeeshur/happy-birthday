@@ -2,7 +2,7 @@
     flex-direction: column;
 }
 
-#chat-history {
+#lre-history {
     display: flex;
     flex-direction: column-reverse;
     height: calc(75vh - 5rem);
@@ -21,8 +21,8 @@
     /* 透明度渐变遮罩 */
     -webkit-mask-image: linear-gradient(to bottom,
         transparent 0%,
-        black 10%,
-        black 90%,
+        black 15%,
+        black 85%,
         transparent 100%);
     mask-image: linear-gradient(to bottom,
         transparent 0%,
@@ -31,7 +31,7 @@
         transparent 100%);
 }
 
-.ch-role-1 {
+.lrec-role-1 {
     width: 100%;
     padding-bottom: 1rem;
     display: flex;
@@ -39,7 +39,7 @@
     align-items: flex-start;
 }
 
-.ch-role-2 {
+.lrec-role-2 {
     width: 100%;
     padding-bottom: 0.6rem;
     display: flex;
@@ -47,7 +47,7 @@
     align-items: flex-end;
 }
 
-.ch-role-1 glass-card {
+.lrec-role-1 glass-card {
     max-width: 90%;
     border-radius: 1.4rem 1.4rem 1.4rem 3px;
     --padding: 0.5rem 0.9rem;
@@ -57,7 +57,7 @@
     font-family: 'text', 'Noto Serif CJK SC', serif;
 }
 
-.ch-role-2 glass-card {
+.lrec-role-2 glass-card {
     --glass-bg: rgba(255, 255, 255, 0.22);
     max-width: 90%;
     border-radius: 1.4rem 1.4rem 3px 1.4rem;
@@ -67,24 +67,26 @@
 }
 
 
-#chat-options {
+#lre-options {
     height: 25vh;
     width: 100%;
     display: flex;
     flex-direction: column;
 }
 
-#co-line-1,
-#co-line-2 {
+#lreo-line-1,
+#lreo-line-2 {
     display: block;
+    height: 50%;
+    width: 100%;
     position: relative;
 }
 
-#chat-options div glass-card {
-    /* position: absolute;
-    top: 50%;
+#lre-options div glass-card {
+    position: absolute;
+    top: 0;
     left: 50%;
-    transform: translate(-50%, 50%); */
+    transform: translateX(-50%);
     --glass-bg: rgba(255, 255, 255, 0.22);
     border-radius: 2rem 2rem 2rem 2rem;
     --padding: 0.8rem 1.4rem;
