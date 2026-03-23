@@ -132,14 +132,17 @@ function setUpFireworks() {
 
     // 粒子数按质量等级缩放
     function createFirework(x, y) {
-        // true 表示深拷贝
-        const instance = window.audioCache["assets/audios/effect/click.mp3"].cloneNode(true);
-        instance.volume = 0.1;
-        instance.play();
-        // 自动销毁
-        instance.onended = () => {
-            instance.remove();
-        };
+        // 播放音效
+        if (!window.isMute) {
+            // true 表示深拷贝
+            const instance = window.audioCache["assets/audios/effect/click.mp3"].cloneNode(true);
+            instance.volume = 0.1;
+            instance.play();
+            // 自动销毁
+            instance.onended = () => {
+                instance.remove();
+            };
+        }
 
         const count = Math.max(20, (PARTICLE_COUNT * qualityLevel) | 0);
         for (let i = 0; i < count; i++) {

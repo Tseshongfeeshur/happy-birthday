@@ -46,7 +46,7 @@ window.animateTextIn = async function (text, container, tl, duration = 1, order 
         },
         onStart,
         onComplete: () => {
-            // split.revert(); // 清理标签，恢复 DOM 原貌
+            split.revert(); // 清理标签，恢复 DOM 原貌
             console.log("Text entered");
         }
     }, order);

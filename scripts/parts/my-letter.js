@@ -8,8 +8,9 @@ class MyLetter {
         console.log(`Page <MyLetter, ${chapterIndex}, ${lastOptionIndex}> entering..`);
         // 开始入场前就设置 flag
         this.inProcess = true;
+        window.updateProgressBar(chapterIndex + chapterIndex < 16 ? 2 : 3, 19);
 
-        window.audioSwitch(['assets/audios/background/letters/0.mp3', 'assets/audios/background/letters/1.mp3', 'assets/audios/background/letters/2.mp3']);
+        if (!window.isMute) window.audioSwitch(['assets/audios/background/letters/0.mp3', 'assets/audios/background/letters/1.mp3', 'assets/audios/background/letters/2.mp3']);
         const tl = gsap.timeline();
         // tl.timeScale(0.1);
         tl.set("#my-letter", {
@@ -64,6 +65,7 @@ class MyLetter {
         // 返回一个可供 await 的过程
         return tl;
     };
+
     //出场动画
     async leaveAnime() {
         if (this.inProcess) {

@@ -7,9 +7,10 @@ class Alohomora {
         console.log("Page <Alohomora> entering..");
         // 开始入场前就设置 flag
         this.inProcess = true;
+        window.updateProgressBar(1, 19);
 
-        window.audioSwitch(['assets/audios/background/alohomora/0.mp3']);
-        setTimeout(() => window.audioCache["assets/audios/effect/firework.mp3"].play(), 3000);
+        if (!window.isMute) window.audioSwitch(['assets/audios/background/alohomora/0.mp3']);
+        if (!window.isMute) setTimeout(() => window.audioCache["assets/audios/effect/firework.mp3"].play(), 3000);
         const tl = gsap.timeline();
         tl.set("#alohomora", {
             display: "flex",

@@ -84,8 +84,9 @@ class LetterReply {
         console.log("Page <LetterReply> entering..");
         // 开始入场前就设置 flag
         this.inProcess = true;
+        window.updateProgressBar(18, 19);
 
-        window.audioSwitch(['assets/audios/background/letters/0.mp3', 'assets/audios/background/letters/1.mp3', 'assets/audios/background/letters/2.mp3']);
+        if (!window.isMute) window.audioSwitch(['assets/audios/background/letters/0.mp3', 'assets/audios/background/letters/1.mp3', 'assets/audios/background/letters/2.mp3']);
         const tl = gsap.timeline();
         tl
             .set("#letter-reply", {

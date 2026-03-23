@@ -78,6 +78,92 @@ a:hover {
     transform: translateY(-5rem);
 }
 
+#content-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 8000;
+    width: calc(100dvw - 2rem * 2);
+    height: 100dvh;
+    padding: 5rem 2rem 0 2rem;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: none;
+    opacity: 0;
+}
+
+@media (min-width: 1000px) {
+    #content-layer {
+        width: calc(80dvw - 2rem);
+        padding: 5rem 20dvw 0 2rem;
+    }
+}
+
+#content-icon-box {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1rem;
+    transform: translateY(-100dvh);
+}
+
+.content-item-box {
+    margin-bottom: 0.8rem;
+    transform: translateY(-100dvh);
+}
+
+.content-icon {
+    height: 2rem;
+    width: 2rem;
+    border-radius: 100%;
+    margin: 0 0.4rem 0.4rem 0;
+    /* 内部图标居中 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 菜单按钮内部图标 */
+#content-icon-back-icon,
+#content-icon-sound-icon,
+#content-icon-mute-icon {
+    max-height: 1.1rem;
+    max-width: 1.1rem;
+}
+
+#content-icon-refresh-icon {
+    max-height: 0.9rem;
+    max-width: 0.9rem;
+}
+
+.content-icon svg path {
+    fill: var(--content-color-primary);
+}
+
+.content-item {
+    --padding: 0.3rem 0.8rem;
+    margin: 0 0.4rem 0.4rem 0;
+    border-radius: 5rem;
+    font-size: 1.1rem;
+    font-family: text, 'Noto Serif CJK SC', serif;
+}
+
+.highlight {
+    --glass-bg: rgba(255, 255, 255, 0.22);
+}
+
+.hide-icon {
+    display: none;
+}
+
+#progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100dvw;
+    transform: translateX(-100dvw);
+    height: 3px;
+    background: linear-gradient(to right, var(--bg-color-1) 0%, var(--bg-color-2) 100%);
+}
+
 /* 所有容器全部占满视口 */
 .container {
     height: 100dvh;

@@ -6,8 +6,9 @@ class Home {
         console.log("Page <Home> entering..");
         // 开始入场前就设置 flag
         this.inProcess = true;
+        window.updateProgressBar(0, 19);
         
-        window.audioSwitch(['assets/audios/background/home/0.mp3']);
+        if (!window.isMute) window.audioSwitch(['assets/audios/background/home/0.mp3']);
         const tl = gsap.timeline();
         tl
             .set("#home", {

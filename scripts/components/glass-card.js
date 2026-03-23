@@ -26,7 +26,7 @@ template.innerHTML = /* html */ `
         background: var(--glass-bg);
         backdrop-filter: blur(12px) saturate(180%);
         -webkit-backdrop-filter: blur(12px) saturate(180%);
-        box-shadow: 0px 5px 20px 4px rgba(0, 0, 0, .2);
+        box-shadow: 0px 5px 12px 2px rgba(0, 0, 0, .1);
         will-change: transform, opacity;
     }
 
