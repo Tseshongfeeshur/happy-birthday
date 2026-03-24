@@ -9,6 +9,8 @@ class Alohomora {
         this.inProcess = true;
         window.updateProgressBar(1, 19);
 
+        window.notify("阅读约用时 4 分钟");
+
         if (!window.isMute) window.audioSwitch(['assets/audios/background/alohomora/0.mp3']);
         if (!window.isMute) setTimeout(() => window.audioCache["assets/audios/effect/firework.mp3"].play(), 3000);
         const tl = gsap.timeline();

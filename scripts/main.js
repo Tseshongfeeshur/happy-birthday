@@ -25,6 +25,10 @@ function buildPages() {
         }
         window.lastPage = window.currentPage || null;
         window.currentPage = [pageName, innerCode1, innerCode2];
+
+        localStorage.setItem('pageName', pageName);
+        localStorage.setItem('innerCode1', innerCode1);
+
         return window.pages[pageName].enterAnime(innerCode1, innerCode2);
     }
 }
@@ -150,13 +154,7 @@ function initial() {
     const loadingBox = document.getElementById("loading-box");
     loadingBox.classList.add("finished");
     loadingBox.addEventListener("click", () => {
-
-
-
-        // 根据cookies设置
-        window.goToPage("home");
-
-
+        window.goToPage(localStorage.getItem('pageName') || "home", localStorage.getItem('innerCode1') || null);
 
         const tl = gsap.timeline();
         tl
@@ -169,7 +167,7 @@ function initial() {
             }, ">");
     }, { once: true });
     const loadingText = document.getElementById("loading-text");
-    loadingText.innerText = "准备就绪";
+    loadingText.innerText = "准备就绪，请打开声音，点击光晕进入";
 }
 
 window.audioCache = {};

@@ -7,6 +7,8 @@ class Home {
         // 开始入场前就设置 flag
         this.inProcess = true;
         window.updateProgressBar(0, 19);
+
+        window.notify("上下浮动的按钮可以点击");
         
         if (!window.isMute) window.audioSwitch(['assets/audios/background/home/0.mp3']);
         const tl = gsap.timeline();

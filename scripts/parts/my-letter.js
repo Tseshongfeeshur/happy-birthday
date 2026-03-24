@@ -169,7 +169,7 @@ class MyLetter {
                 if (window.myLetter?.[this.chapterIndex]?.action == "go-to-letter-reply")
                     window.goToPage("letter-reply");
                 else if (window.myLetter?.[this.chapterIndex]?.action == "ending")
-                    console.log("todo");
+                    window.goToPage("home");
                 else
                     await window.goToPage("my-letter", ++this.chapterIndex, activeIndex);
             });
