@@ -215,6 +215,8 @@ class LetterReply {
         this.inProcess = true;
         window.updateProgressBar(18, 19);
 
+        window.notify("点击下方滚动的卡片查看回复，全部查看后可以进入下一页")
+
         if (!window.isMute) window.audioSwitch(['assets/audios/background/letters/0.mp3', 'assets/audios/background/letters/1.mp3', 'assets/audios/background/letters/2.mp3']);
         const tl = gsap.timeline();
         tl
