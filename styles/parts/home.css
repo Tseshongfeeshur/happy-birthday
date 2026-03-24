@@ -156,7 +156,7 @@
     font-family: 'text', 'Noto Serif CJK SC', serif;
     font-size: 1.2rem;
     display: none;
-    
+
     overflow: auto;
 
     /* 隐藏滚动条 */
@@ -226,6 +226,54 @@
 
 .about-avatar-box#pixabay-avatar {
     background-image: url("../../assets/images/about/pixabay-avatar.png");
+}
+
+.about-avatar-box#gsap-avatar {
+    background-image: url("../../assets/images/about/gsap-avatar.png");
+}
+
+.about-avatar-box#banana-avatar {
+    background-image: url("../../assets/images/about/banana-avatar.png");
+}
+
+.about-avatar-box#inkscape-avatar {
+    background-image: url("../../assets/images/about/inkscape-avatar.png");
+}
+
+.about-avatar-box#coker-avatar {
+    background-image: url("../../assets/images/about/coker-avatar.png");
+}
+
+.about-avatar-box#ffmpeg-avatar {
+    background-image: url("../../assets/images/about/ffmpeg-avatar.png");
+}
+
+.about-avatar-box#ocenaudio-avatar {
+    background-image: url("../../assets/images/about/ocenaudio-avatar.png");
+}
+
+.about-avatar-box#xuanji-avatar {
+    background-image: url("../../assets/images/about/xuanji-avatar.png");
+}
+
+.about-avatar-box#xiangcui-avatar {
+    background-image: url("../../assets/images/about/xiangcui-avatar.png");
+}
+
+.about-avatar-box#syne-avatar {
+    background-image: url("../../assets/images/about/syne-avatar.png");
+}
+
+.about-avatar-box#fonttools-avatar {
+    background-image: url("../../assets/images/about/fonttools-avatar.png");
+}
+
+.about-avatar-box#manzyk-avatar {
+    background-image: url("../../assets/images/about/manzyk-avatar.png");
+}
+
+.about-avatar-box#fontawesome-avatar {
+    background-image: url("../../assets/images/about/fontawesome-avatar.png");
 }
 
 .about-nickname {

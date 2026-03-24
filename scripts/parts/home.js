@@ -9,7 +9,7 @@ class Home {
         window.updateProgressBar(0, 19);
 
         window.notify("上下浮动的按钮可以点击");
-        
+
         if (!window.isMute) window.audioSwitch(['assets/audios/background/home/0.mp3']);
         const tl = gsap.timeline();
         tl
@@ -125,6 +125,7 @@ class Home {
 
         const aboutItems = document.querySelectorAll(".about-item");
         tl.to(aboutItems, {
+            opacity: 1,
             y: 0,
             duration: 1.2,
             ease: "elastic.out(0.6, 0.7)",
@@ -152,6 +153,7 @@ class Home {
         const tl = gsap.timeline();
         tl
             .to(aboutItems, {
+                opacity: 0,
                 y: vh,
                 duration: 0.8,
                 ease: "power2.inOut",
